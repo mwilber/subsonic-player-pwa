@@ -1,5 +1,4 @@
 import {Howl, Howler} from 'howler';
-import creds from 'credentials';
 
 export class MediaPlayer{
 	constructor(node){
@@ -33,13 +32,28 @@ export class MediaPlayer{
 	}
 
 	GetServerQuery(method, params){
-		let query = creds.server+'/rest/'+method+'.view?u='+creds.user+'&p='+creds.password+'&v=1.12.0&f=json&c=greenzeta';
-		for (const key in params) {
-			if (Object.hasOwnProperty.call(params, key)) {
-				query += '&'+key+'='+params[key];
+
+		let serverInput = document.getElementById('server');
+		let userInput = document.getElementById('user');
+		let passInput = document.getElementById('pass');
+
+		if(!localStorage['server']) localStorage['server'] = serverInput.value;
+		if(!localStorage['user']) localStorage['user'] = userInput.value;
+		if(!localStorage['pass']) localStorage['pass'] = passInput.value;
+
+		let server = localStorage['server'];
+		let user = localStorage['user'];
+		let pass = localStorage['pass'];
+
+		if(server && user && pass){
+			let query = server+'/rest/'+method+'.view?u='+user+'&p='+pass+'&v=1.12.0&f=json&c=greenzeta';
+			for (const key in params) {
+				if (Object.hasOwnProperty.call(params, key)) {
+					query += '&'+key+'='+params[key];
+				}
 			}
-		}
-		return query;
+			return query;
+	}
 	}
 
 	LoadMediaFile(){
