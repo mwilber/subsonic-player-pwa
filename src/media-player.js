@@ -86,6 +86,26 @@ export class MediaPlayer{
 			// 	// More sizes, like 192x192, 256x256, 384x384, and 512x512
 			//   ]
 			});
+			navigator.mediaSession.setActionHandler('play', () => {
+				this.PlayMediaFile();
+			});
+			navigator.mediaSession.setActionHandler('pause', () => {
+				this.PauseMediaFile();
+			});
+			navigator.mediaSession.setActionHandler('previoustrack', () => {
+				console.log('prev track');
+			});
+			navigator.mediaSession.setActionHandler('nexttrack', () => {
+				console.log('next track');
+			});
+			navigator.mediaSession.setActionHandler('seekbackward', (details) => {
+				let seek = this.howl.seek() || 0;
+				this.howl.seek( seek - (details.seekOffset || 10) );
+			});
+			navigator.mediaSession.setActionHandler('seekforward', (details) => {
+				let seek = this.howl.seek() || 0;
+				this.howl.seek( seek + (details.seekOffset || 10) );
+			});
 		}
 	}
 
