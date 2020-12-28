@@ -1,4 +1,5 @@
 import {Howl, Howler} from 'howler';
+import creds from 'credentials';
 
 export class MediaPlayer{
 	constructor(node){
@@ -29,10 +30,24 @@ export class MediaPlayer{
 		});
 	}
 
+	GetServerQuery(method, params){
+		let query = creds.server+'/rest/'+method+'.view?u='+creds.user+'&p='+creds.password+'&v=1.12.0&f=json&c=greenzeta';
+		for (const key in params) {
+			if (Object.hasOwnProperty.call(params, key)) {
+				query += '&'+key+'='+params[key];
+			}
+		}
+		console.log("🚀 ~ file: media-player.js ~ line 35 ~ MediaPlayer ~ GetServerQuery ~ query", query)
+
+		return query;
+	}
+
 	LoadMediaFile(){
 		this.UnloadMediaFile();
+		this.GetServerQuery('getSong',{id: '300002162'})
+		//fetch()
 		this.howl = new Howl({
-			src: ['http://music.mwilber.com/rest/download.view?u=mwilber&p=d4rkw4rr!0r&v=1.12.0&c=myapp&id=300002162'],
+			src: [this.GetServerQuery('download',{id: '300002162'})],
 			html5: true
 		});
 		console.log("🚀 ~ file: media-player.js ~ line 31 ~ MediaPlayer ~ LoadMediaFile ~ this.howl", this.howl)
@@ -40,7 +55,7 @@ export class MediaPlayer{
 
 	UnloadMediaFile(){
 		console.log('Unloading audio file', this.howl);
-		if(this.howl) this.howl.unload();
+		if(this.howl && this.howl.unload) this.howl.unload();
         console.log("🚀 ~ file: media-player.js ~ line 40 ~ MediaPlayer ~ UnloadMediaFile ~ this.howl", this.howl)
 	}
 
