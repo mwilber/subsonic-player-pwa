@@ -9,6 +9,7 @@ export class MediaPlayer{
 			play: node.querySelector('.btn.play'),
 			pause: node.querySelector('.btn.pause')
 		};
+		this.artwork = node.querySelector('.artwork');
 
 		// Audio playback managed by Howler.js
 		this.howl = null;
@@ -53,6 +54,7 @@ export class MediaPlayer{
 			src: [this.GetServerQuery('download',{id: '300002162'})],
 			html5: true
 		});
+		this.artwork.style.backgroundImage = 'url('+this.GetServerQuery('getCoverArt',{id: '300002162'})+')';
 	}
 
 	UnloadMediaFile(){
