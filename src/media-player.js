@@ -13,6 +13,7 @@ export class MediaPlayer{
 
 		// Audio playback managed by Howler.js
 		this.howl = null;
+		this.meta = null;
 		
 		this.SetControls();
 	}
@@ -47,14 +48,23 @@ export class MediaPlayer{
 			.then(response => response.json())
 			.then(
 				(data)=>{
-					console.log("json data", data);
+					this.meta = data['subsonic-response'].song[0]
+					console.log("json data", this.meta, data);
+
+					this.howl = new Howl({
+						src: [this.GetServerQuery('download',{id: '300002162'})],
+						html5: true
+					});
+					this.meta.artwork = [
+						{
+							src: this.GetServerQuery('getCoverArt',{id: '300002162', size: 256}),
+							sizes: '256x256', 
+							type: 'image/png'
+						}
+					];
+					this.artwork.style.backgroundImage = 'url('+this.meta.artwork[0].src+')';
 				}
 			);
-		this.howl = new Howl({
-			src: [this.GetServerQuery('download',{id: '300002162'})],
-			html5: true
-		});
-		this.artwork.style.backgroundImage = 'url('+this.GetServerQuery('getCoverArt',{id: '300002162'})+')';
 	}
 
 	UnloadMediaFile(){
@@ -64,6 +74,19 @@ export class MediaPlayer{
 
 	PlayMediaFile(){
 		this.howl.play();
+		if ('mediaSession' in navigator) {
+			navigator.mediaSession.metadata = new MediaMetadata({
+			  title: this.meta.title,
+			  artist: this.meta.artist,
+			  album: this.meta.album,
+			  artwork: this.meta.artwork
+			//   artwork: [
+			// 	{ src: 'https://mytechnicalarticle/kendrick-lamar/to-pimp-a-butterfly/alright/96x96', sizes: '96x96', type: 'image/png' },
+			// 	{ src: 'https://mytechnicalarticle/kendrick-lamar/to-pimp-a-butterfly/alright/128x128', sizes: '128x128', type: 'image/png' },
+			// 	// More sizes, like 192x192, 256x256, 384x384, and 512x512
+			//   ]
+			});
+		}
 	}
 
 	PauseMediaFile(){
