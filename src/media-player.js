@@ -37,26 +37,27 @@ export class MediaPlayer{
 				query += '&'+key+'='+params[key];
 			}
 		}
-		console.log("🚀 ~ file: media-player.js ~ line 35 ~ MediaPlayer ~ GetServerQuery ~ query", query)
-
 		return query;
 	}
 
 	LoadMediaFile(){
 		this.UnloadMediaFile();
-		this.GetServerQuery('getSong',{id: '300002162'})
-		//fetch()
+		fetch(this.GetServerQuery('getSong',{id: '300002162'}))
+			.then(response => response.json())
+			.then(
+				(data)=>{
+					console.log("json data", data);
+				}
+			);
 		this.howl = new Howl({
 			src: [this.GetServerQuery('download',{id: '300002162'})],
 			html5: true
 		});
-		console.log("🚀 ~ file: media-player.js ~ line 31 ~ MediaPlayer ~ LoadMediaFile ~ this.howl", this.howl)
 	}
 
 	UnloadMediaFile(){
 		console.log('Unloading audio file', this.howl);
 		if(this.howl && this.howl.unload) this.howl.unload();
-        console.log("🚀 ~ file: media-player.js ~ line 40 ~ MediaPlayer ~ UnloadMediaFile ~ this.howl", this.howl)
 	}
 
 	PlayMediaFile(){
