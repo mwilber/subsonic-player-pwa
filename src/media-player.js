@@ -58,7 +58,7 @@ export class MediaPlayer{
 
 	LoadMediaFile(){
 		this.UnloadMediaFile();
-		fetch(this.GetServerQuery('getSong',{id: '300002162'}))
+		fetch(this.GetServerQuery('getSong',{id: '300002556'}))
 			.then(response => response.json())
 			.then(
 				(data)=>{
@@ -66,12 +66,12 @@ export class MediaPlayer{
 					console.log("json data", this.meta, data);
 
 					this.howl = new Howl({
-						src: [this.GetServerQuery('download',{id: '300002162'})],
+						src: [this.GetServerQuery('download',{id: '300002556'})],
 						html5: true
 					});
 					this.meta.artwork = [
 						{
-							src: this.GetServerQuery('getCoverArt',{id: '300002162', size: 256}),
+							src: this.GetServerQuery('getCoverArt',{id: '300002556', size: 256}),
 							sizes: '256x256', 
 							type: 'image/png'
 						}
@@ -119,6 +119,13 @@ export class MediaPlayer{
 			navigator.mediaSession.setActionHandler('seekforward', (details) => {
 				let seek = this.howl.seek() || 0;
 				this.howl.seek( seek + (details.seekOffset || 10) );
+			});
+			navigator.mediaSession.setActionHandler('seekto', (details) => {
+				// if (details.fastSeek && 'fastSeek' in alright) {
+				//   alright.fastSeek(details.seekTime);
+				//   return;
+				// }
+				this.howl.seek( details.seekTime );
 			});
 		}
 	}
