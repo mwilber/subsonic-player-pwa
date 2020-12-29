@@ -8,7 +8,8 @@
 
 self.addEventListener('install', function(event){
     console.log('[SW] installing...');
-    event.waitUntil(caches.open('static')
+    caches.delete('static');
+    event.waitUntil(caches.open('static_v0.1')
         .then(function(cache){
             console.log('[SW] precaching');
             cache.addAll([
