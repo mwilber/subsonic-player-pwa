@@ -25,6 +25,28 @@ export class MediaPlayer{
 		document.getElementById('pass').value = localStorage['pass'];
 	}
 
+	// TODO: implement this instead of inline in play function
+	InitMediaSessionHandlers(){
+		const actionsAndHandlers = [
+			['play', () => { /*...*/ }],
+			['pause', () => { /*...*/ }],
+			['previoustrack', () => { /*...*/ }],
+			['nexttrack', () => { /*...*/ }],
+			['seekbackward', (details) => { /*...*/ }],
+			['seekforward', (details) => { /*...*/ }],
+			['seekto', (details) => { /*...*/ }],
+			['stop', () => { /*...*/ }]
+		]
+		 
+		for (const [action, handler] of actionsAndHandlers) {
+			try {
+			  navigator.mediaSession.setActionHandler(action, handler);
+			} catch (error) {
+			  console.log(`The media session action, ${action}, is not supported`);
+			}
+		}
+	}
+
 	Step(){
 		let self = this;
 
