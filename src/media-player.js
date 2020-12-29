@@ -15,6 +15,10 @@ export class MediaPlayer{
 		this.meta = null;
 		
 		this.SetControls();
+
+		document.getElementById('server').value = localStorage['server'];
+		document.getElementById('user').value = localStorage['user'];
+		document.getElementById('pass').value = localStorage['pass'];
 	}
 
 	SetControls(){
@@ -33,13 +37,9 @@ export class MediaPlayer{
 
 	GetServerQuery(method, params){
 
-		let serverInput = document.getElementById('server');
-		let userInput = document.getElementById('user');
-		let passInput = document.getElementById('pass');
-
-		if(!localStorage['server']) localStorage['server'] = serverInput.value;
-		if(!localStorage['user']) localStorage['user'] = userInput.value;
-		if(!localStorage['pass']) localStorage['pass'] = passInput.value;
+		localStorage['server'] = document.getElementById('server').value;
+		localStorage['user'] = document.getElementById('user').value;
+		localStorage['pass'] = document.getElementById('pass').value;
 
 		let server = localStorage['server'];
 		let user = localStorage['user'];
