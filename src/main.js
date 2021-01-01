@@ -19,5 +19,7 @@ import '../styles/main.scss';
 // import {Howl, Howler} from 'howler';
 
 import { MediaPlayer } from './media-player';
+import { ApiSubsonic } from './api-subsonic';
 
-let mediaPlayer = new MediaPlayer(document.querySelector('.media-player'));
+let api = new ApiSubsonic();
+let mediaPlayer = new MediaPlayer(document.querySelector('.media-player'), api);

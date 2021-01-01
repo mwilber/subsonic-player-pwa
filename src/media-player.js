@@ -1,8 +1,9 @@
 import {Howl, Howler} from 'howler';
 
 export class MediaPlayer{
-	constructor(node){
-		console.log('Created Media Player');
+	constructor(node, api){
+		this.api = api;
+		
 		this.controls = {
 			load: node.querySelector('.btn.load'),
 			play: node.querySelector('.btn.play'),
@@ -23,6 +24,8 @@ export class MediaPlayer{
 		document.getElementById('server').value = localStorage['server'];
 		document.getElementById('user').value = localStorage['user'];
 		document.getElementById('pass').value = localStorage['pass'];
+
+		console.log('Created Media Player');
 	}
 
 	// TODO: implement this instead of inline in play function
@@ -95,62 +98,29 @@ export class MediaPlayer{
 		});
 	}
 
-	GetServerQuery(method, params){
-
-		localStorage['server'] = document.getElementById('server').value;
-		localStorage['user'] = document.getElementById('user').value;
-		localStorage['pass'] = document.getElementById('pass').value;
-
-		let server = localStorage['server'];
-		let user = localStorage['user'];
-		let pass = localStorage['pass'];
-
-		if(server && user && pass){
-			let query = server+'/rest/'+method+'.view?u='+user+'&p='+pass+'&v=1.12.0&f=json&c=greenzeta';
-			for (const key in params) {
-				if (Object.hasOwnProperty.call(params, key)) {
-					query += '&'+key+'='+params[key];
-				}
-			}
-			return query;
-	}
+	UnloadMediaFile(){
+		console.log('Unloading audio file', this.howl);
+		if(this.howl && this.howl.unload) this.howl.unload();
 	}
 
 	LoadMediaFile(){
 		this.UnloadMediaFile();
-		fetch(this.GetServerQuery('getSong',{id: '300002556'}))
-			.then(response => response.json())
-			.then(
-				(data)=>{
-					this.meta = data['subsonic-response'].song[0]
-					console.log("json data", this.meta, data);
-
-					this.howl = new Howl({
-						src: [this.GetServerQuery('download',{id: '300002556'})],
-						html5: true,
-						onplay: ()=>{
-							// Display the duration.
-							this.display.duration.innerHTML = this.formatTime(Math.round(this.howl.duration()));
-				  
-							// Start upating the progress of the track.
-							requestAnimationFrame(this.Step.bind(this));
-						},
-					});
-					this.meta.artwork = [
-						{
-							src: this.GetServerQuery('getCoverArt',{id: '300002556', size: 256}),
-							sizes: '256x256', 
-							type: 'image/png'
-						}
-					];
-					this.artwork.style.backgroundImage = 'url('+this.meta.artwork[0].src+')';
-				}
-			);
-	}
-
-	UnloadMediaFile(){
-		console.log('Unloading audio file', this.howl);
-		if(this.howl && this.howl.unload) this.howl.unload();
+		this.api.GetSong('300002556')
+			.then((data)=>{
+				console.log("🚀 ~ file: media-player.js ~ line 109 ~ MediaPlayer ~ this.api.GetSong ~ data", data)
+				this.meta = data;
+				this.howl = new Howl({
+					src: this.meta.src,
+					html5: true,
+					onplay: ()=>{
+						// Display the duration.
+						this.display.duration.innerHTML = this.formatTime(Math.round(this.howl.duration()));
+						// Start upating the progress of the track.
+						requestAnimationFrame(this.Step.bind(this));
+					},
+				});
+				this.artwork.style.backgroundImage = 'url('+this.meta.coverArt[0].src+')';
+			});
 	}
 
 	PlayMediaFile(){
