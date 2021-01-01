@@ -25,27 +25,53 @@ export class ApiSubsonic{
 		}
 	}
 
+	FormatSongObject(data){
+		//TODO: validate the data object
+		return {
+			album: data.album,
+			artist: data.artist,
+			title: data.title,
+			coverArt: [
+				{
+					src: this.GetServerQuery('getCoverArt',{id: data.id, size: 256}),
+					sizes: '256x256', 
+					type: 'image/png'
+				}
+			],
+			src: [
+				this.GetServerQuery('download',{id: data.id})
+			]
+		};
+	}
+
 	GetSong(id){
 		return fetch(this.GetServerQuery('getSong',{id: id}))
 			.then(response => response.json())
 			.then(
 				(data)=>{
-					let songObj = {
-						album: data.album,
-						artist: data.artist,
-						title: data.title,
-						coverArt: [
-							{
-								src: this.GetServerQuery('getCoverArt',{id: id, size: 256}),
-								sizes: '256x256', 
-								type: 'image/png'
-							}
-						],
-						src: [
-							this.GetServerQuery('download',{id: id})
-						]
+					if( !data['subsonic-response'] || data['subsonic-response'].status !== 'ok' ) return;
+					return this.FormatSongObject(data['subsonic-response'].song[0]);
+				}
+			);
+	}
+
+	GetPlaylist(id){
+		// TODO: remove this defualt value
+		id = id || '800000013';
+
+		return fetch(this.GetServerQuery('getPlaylist',{id: id}))
+			.then(response => response.json())
+			.then(
+				(data)=>{
+					if( !data['subsonic-response'] || data['subsonic-response'].status !== 'ok' ) return;
+					let playlistObj = {
+						name: data['subsonic-response'].playlist.name,
+						songs: []
 					}
-					return songObj;
+					data['subsonic-response'].playlist.entry.forEach((song)=>{
+						playlistObj.songs.push(this.FormatSongObject(song))
+					});
+					return playlistObj;
 				}
 			);
 	}

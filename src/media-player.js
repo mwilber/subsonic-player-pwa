@@ -123,9 +123,26 @@ export class MediaPlayer{
 			});
 	}
 
+	PlaySongObject(song){
+		this.meta = song;
+		this.howl = new Howl({
+			src: this.meta.src,
+			html5: true,
+			onplay: ()=>{
+				// Display the duration.
+				this.display.duration.innerHTML = this.formatTime(Math.round(this.howl.duration()));
+				// Start upating the progress of the track.
+				requestAnimationFrame(this.Step.bind(this));
+			},
+		});
+		this.artwork.style.backgroundImage = 'url('+this.meta.coverArt[0].src+')';
+		this.PlayMediaFile();
+	}
+
 	PlayMediaFile(){
 		this.howl.play();
 		if ('mediaSession' in navigator) {
+			// TODO: Fix this, it's creating a new MediaMetadata object on each play. Should be created on load.
 			navigator.mediaSession.metadata = new MediaMetadata({
 			  title: this.meta.title,
 			  artist: this.meta.artist,

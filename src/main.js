@@ -23,3 +23,23 @@ import { ApiSubsonic } from './api-subsonic';
 
 let api = new ApiSubsonic();
 let mediaPlayer = new MediaPlayer(document.querySelector('.media-player'), api);
+
+api.GetPlaylist().then((data)=>{
+	console.log("🚀 ~ file: main.js ~ line 28 ~ api.GetPlaylist ~ data", data)
+	let playlist = data;
+	let playlistElement = document.querySelector('.playlist ul');
+	document.querySelector('.playlist h2').innerHTML = playlist.name;
+	playlist.songs.forEach((song)=>{
+		let songBtn = document.createElement('button');
+		songBtn.song = song;
+		songBtn.innerText = song.title;
+		songBtn.addEventListener('click',(evt)=>{
+			console.log(evt.target.song);
+			mediaPlayer.PlaySongObject(evt.target.song);
+		});
+
+		let listElement = document.createElement('li');
+		listElement.appendChild(songBtn);
+		playlistElement.appendChild(listElement);
+	});
+});
