@@ -20,9 +20,11 @@ import '../styles/main.scss';
 
 import { MediaPlayer } from './media-player';
 import { ApiSubsonic } from './api-subsonic';
+import { MediaCache } from './media-cache';
 
 let api = new ApiSubsonic();
 let mediaPlayer = new MediaPlayer(document.querySelector('.media-player'), api);
+let mediaCache = new MediaCache();
 
 api.GetPlaylist().then((data)=>{
 	console.log("🚀 ~ file: main.js ~ line 28 ~ api.GetPlaylist ~ data", data)
@@ -42,4 +44,7 @@ api.GetPlaylist().then((data)=>{
 		listElement.appendChild(songBtn);
 		playlistElement.appendChild(listElement);
 	});
+
+	let cacheBtn = document.querySelector('.playlist button.cache');
+	cacheBtn.addEventListener('click', (evt)=>{ mediaCache.CachePlaylist(playlist); });
 });

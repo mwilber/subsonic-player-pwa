@@ -107,7 +107,6 @@ export class MediaPlayer{
 		this.UnloadMediaFile();
 		this.api.GetSong('300002556')
 			.then((data)=>{
-				console.log("🚀 ~ file: media-player.js ~ line 109 ~ MediaPlayer ~ this.api.GetSong ~ data", data)
 				this.meta = data;
 				this.howl = new Howl({
 					src: this.meta.src,
@@ -147,7 +146,7 @@ export class MediaPlayer{
 			  title: this.meta.title,
 			  artist: this.meta.artist,
 			  album: this.meta.album,
-			  artwork: this.meta.artwork
+			  artwork: this.meta.coverArt
 			//   artwork: [
 			// 	{ src: 'https://mytechnicalarticle/kendrick-lamar/to-pimp-a-butterfly/alright/96x96', sizes: '96x96', type: 'image/png' },
 			// 	{ src: 'https://mytechnicalarticle/kendrick-lamar/to-pimp-a-butterfly/alright/128x128', sizes: '128x128', type: 'image/png' },
