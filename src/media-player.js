@@ -123,6 +123,7 @@ export class MediaPlayer{
 	}
 
 	PlaySongObject(song){
+		this.UnloadMediaFile();
 		this.meta = song;
 		this.howl = new Howl({
 			src: this.meta.src,

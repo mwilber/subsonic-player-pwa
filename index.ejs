@@ -51,16 +51,6 @@
 <body>
     <div class="container">
 		<h1><%= htmlWebpackPlugin.options.data.title %></h1>
-		<div class="creds">
-			<input id="server" type="text" placeholder="server"/>
-			<input id="user" type="text" placeholder="user"/>
-			<input id="pass" type="text" placeholder="pass"/>
-		</div>
-		<div class="playlist">
-			<button class="cache">Cache</button>
-			<h2></h2>
-			<ul></ul>
-		</div>
 		<div class="media-player">
 			<!-- Controls -->
 			<div class="display">
@@ -73,6 +63,8 @@
 				<button class="btn load">Load</button>
 				<button class="btn play">Play</button>
 				<button class="btn pause">Pause</button>
+				<button class="btn next">Next</button>
+				<button class="btn previous">Previous</button>
 			</div>
 			<!-- Progress -->
 			<!-- Playlist -->
@@ -108,6 +100,17 @@
 				<div id="barEmpty" class="bar"></div>
 				<div id="sliderBtn"></div>
 			</div> -->
+		</div>
+		<div class="playlist">
+			<button class="cache">Cache</button>
+			<button class="play-playlist">PL Play</button>
+			<h2></h2>
+			<ul></ul>
+		</div>
+		<div class="creds">
+			<input id="server" type="text" placeholder="server"/>
+			<input id="user" type="text" placeholder="user"/>
+			<input id="pass" type="text" placeholder="pass"/>
 		</div>
 	</div>
 </body>

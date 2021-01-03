@@ -63,6 +63,7 @@ self.addEventListener('fetch', function(event){
                     // TODO: remove this before production
                     if( event.request.url.includes('bundle.js') ) return res;
                     // Cache and return
+                    console.log('fetch successful. adding to cache', CACHE_DYNAMIC_NAME)
                     return caches.open(CACHE_DYNAMIC_NAME)
                         .then(function(cache) {
                             cache.put(event.request.url, res.clone());

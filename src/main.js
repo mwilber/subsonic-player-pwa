@@ -11,7 +11,7 @@
  * check out the GreenZeta 10 minute PWA example at https://github.com/mwilber/gz-10-minute-pwa
  */ 
 import '../app-shell.css';
-import './serviceWorkerRegistration';
+//import './serviceWorkerRegistration';
 
 // Load application styles
 import '../styles/main.scss';
@@ -26,9 +26,12 @@ let api = new ApiSubsonic();
 let mediaPlayer = new MediaPlayer(document.querySelector('.media-player'), api);
 let mediaCache = new MediaCache();
 
+let playlist = null;
+let playlistIdx = 0;
+
 api.GetPlaylist().then((data)=>{
 	console.log("🚀 ~ file: main.js ~ line 28 ~ api.GetPlaylist ~ data", data)
-	let playlist = data;
+	playlist = data;
 	let playlistElement = document.querySelector('.playlist ul');
 	document.querySelector('.playlist h2').innerHTML = playlist.name;
 	playlist.songs.forEach((song)=>{
@@ -47,4 +50,20 @@ api.GetPlaylist().then((data)=>{
 
 	let cacheBtn = document.querySelector('.playlist button.cache');
 	cacheBtn.addEventListener('click', (evt)=>{ mediaCache.CachePlaylist(playlist); });
+});
+
+document.querySelector('.play-playlist').addEventListener('click', (evt)=>{
+	mediaPlayer.PlaySongObject(playlist.songs[playlistIdx]);
+});
+
+document.querySelector('.btn.next').addEventListener('click', (evt)=>{
+	playlistIdx++;
+	if( playlistIdx >= playlist.songs.length ) playlistIdx = 0;
+	mediaPlayer.PlaySongObject(playlist.songs[playlistIdx]);
+});
+
+document.querySelector('.btn.previous').addEventListener('click', (evt)=>{
+	playlistIdx--;
+	if( playlistIdx < 0 ) playlistIdx = playlist.songs.length - 1;
+	mediaPlayer.PlaySongObject(playlist.songs[playlistIdx]);
 });
