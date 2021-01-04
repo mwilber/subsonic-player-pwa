@@ -30,9 +30,8 @@ let playlist = null;
 let playlistIdx = 0;
 
 api.GetPlaylist('800000012').then((data)=>{
-	console.log("🚀 ~ file: main.js ~ line 28 ~ api.GetPlaylist ~ data", data)
 	playlist = data;
-	shufflePlaylist(playlist);
+	shufflePlaylist(playlist.songs);
 	let playlistElement = document.querySelector('.playlist ul');
 	document.querySelector('.playlist h2').innerHTML = playlist.name;
 	playlist.songs.forEach((song)=>{
