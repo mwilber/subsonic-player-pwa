@@ -6,7 +6,7 @@
  * to build out your own caching strategy and other PWA features.
  */
 
-let CACHE_VERSION = '0.2';
+let CACHE_VERSION = '0.3';
 let CACHE_STATIC_NAME = 'static_v'+CACHE_VERSION;
 let CACHE_DYNAMIC_NAME = 'dynamic_v'+CACHE_VERSION;
 let cacheFirst = ['getCoverArt.view', 'download.view'];
@@ -61,7 +61,7 @@ self.addEventListener('fetch', function(event){
                 .then(function(res){
                     // Skip caching the javascript bundle
                     // TODO: remove this before production
-                    if( event.request.url.includes('bundle.js') ) return res;
+                    //if( event.request.url.includes('bundle.js') ) return res;
                     // Cache and return
                     console.log('fetch successful. adding to cache', CACHE_DYNAMIC_NAME)
                     return caches.open(CACHE_DYNAMIC_NAME)

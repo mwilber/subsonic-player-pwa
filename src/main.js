@@ -11,7 +11,7 @@
  * check out the GreenZeta 10 minute PWA example at https://github.com/mwilber/gz-10-minute-pwa
  */ 
 import '../app-shell.css';
-//import './serviceWorkerRegistration';
+import './serviceWorkerRegistration';
 
 // Load application styles
 import '../styles/main.scss';
@@ -29,9 +29,10 @@ let mediaCache = new MediaCache();
 let playlist = null;
 let playlistIdx = 0;
 
-api.GetPlaylist().then((data)=>{
+api.GetPlaylist('800000012').then((data)=>{
 	console.log("🚀 ~ file: main.js ~ line 28 ~ api.GetPlaylist ~ data", data)
 	playlist = data;
+	shufflePlaylist(playlist);
 	let playlistElement = document.querySelector('.playlist ul');
 	document.querySelector('.playlist h2').innerHTML = playlist.name;
 	playlist.songs.forEach((song)=>{
@@ -67,3 +68,13 @@ document.querySelector('.btn.previous').addEventListener('click', (evt)=>{
 	if( playlistIdx < 0 ) playlistIdx = playlist.songs.length - 1;
 	mediaPlayer.PlaySongObject(playlist.songs[playlistIdx]);
 });
+
+/* Shuffle the playlist using Durstenfeld algorithm */
+function shufflePlaylist(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        let temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+}
