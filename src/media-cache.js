@@ -4,6 +4,12 @@ export class MediaCache{
 		this.resCt = 0;
 		this.errCt = 0;
 		this.extCt = 0;
+
+		navigator.serviceWorker.addEventListener('message', event => {
+			console.log('SUCCESS', event.data.msg, event.data.count);
+			let cacheOut = document.querySelector('.cache-status');
+			cacheOut.innerText = 'Media files cached: ' + event.data.count;
+		});
 	}
 
 	CachePlaylist(playlist){

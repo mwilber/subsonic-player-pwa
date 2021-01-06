@@ -60,7 +60,17 @@ self.addEventListener('fetch', function(event){
                             return caches.open(CACHE_MEDIA_NAME)
                                 .then(function(cache) {
                                     console.log('[SW] Adding to media cache');
-                                    cache.put(event.request.url, res.clone());
+                                    cache.put(event.request.url, res.clone()).then(()=>{
+                                        cache.keys().then(function(keys) {
+                                            clients.get(event.clientId).then((client)=>{
+                                                client.postMessage({
+                                                    msg: "File cached",
+                                                    count: keys.length,
+                                                    url: event.request.url
+                                                });
+                                            });
+                                        });
+                                    });
                                     return res;
                                 });
                         });
