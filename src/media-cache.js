@@ -22,24 +22,27 @@ export class MediaCache{
 		caches.open('playlist_'+playlist.name)
 			.then((cache)=>{
 				paths.forEach((path)=>{
-					this.reqCt++;
-					this.CacheResponse(path, cache).then((cacheResult)=>{
-						switch( cacheResult.type ){
-							case 'response':
-								this.resCt++;
-								this.cacheOut.innerText = 'cached '+this.resCt+' of '+this.reqCt+'. '+this.extCt+' already cached. ( '+this.errCt+' errors ) '+(this.resCt+this.extCt+this.errCt);
-								break;
-							case 'error':
-								this.errCt++;
-								this.cacheOut.innerText = 'cached '+this.resCt+' of '+this.reqCt+'. '+this.extCt+' already cached. ( '+this.errCt+' errors ) '+(this.resCt+this.extCt+this.errCt);
-								break;
-							case 'exist':
-								this.extCt++;
-								this.cacheOut.innerText = 'cached '+this.resCt+' of '+this.reqCt+'. '+this.extCt+' already cached. ( '+this.errCt+' errors ) '+(this.resCt+this.extCt+this.errCt);
-								break;
-							default:
-						}
-					});
+					//this.reqCt++;
+					this.CacheResponse(path, cache);
+					
+
+					// .then((cacheResult)=>{
+						// switch( cacheResult.type ){
+						// 	case 'response':
+						// 		this.resCt++;
+						// 		this.cacheOut.innerText = 'cached '+this.resCt+' of '+this.reqCt+'. '+this.extCt+' already cached. ( '+this.errCt+' errors ) '+(this.resCt+this.extCt+this.errCt);
+						// 		break;
+						// 	case 'error':
+						// 		this.errCt++;
+						// 		this.cacheOut.innerText = 'cached '+this.resCt+' of '+this.reqCt+'. '+this.extCt+' already cached. ( '+this.errCt+' errors ) '+(this.resCt+this.extCt+this.errCt);
+						// 		break;
+						// 	case 'exist':
+						// 		this.extCt++;
+						// 		this.cacheOut.innerText = 'cached '+this.resCt+' of '+this.reqCt+'. '+this.extCt+' already cached. ( '+this.errCt+' errors ) '+(this.resCt+this.extCt+this.errCt);
+						// 		break;
+						// 	default:
+						// }
+					// });
 
 
 					// caches.match(path).then((response)=>{
@@ -68,25 +71,25 @@ export class MediaCache{
 	}
 
 	async CacheResponse(url, cache){
-		let response = await caches.match(url);
-		let result = {
-			type: 'error'
-		};
-		if(!response || !response.body){
-			try{
-				let res = await cache.add(url);
-				result.type = 'response';
-			}catch(err){
-				result.type = 'error';
-			}
-			await this.timeout(5000);
-		}else{
-			result.type = 'exist';
-		}
+		// let response = await caches.match(url);
+		// let result = {
+		// 	type: 'error'
+		// };
+		// if(!response || !response.body){
+		// 	try{
+		// 		let res = await cache.add(url);
+		// 		result.type = 'response';
+		// 	}catch(err){
+		// 		result.type = 'error';
+		// 	}
+		// 	//await this.timeout(5000);
+		// }else{
+		// 	result.type = 'exist';
+		// }
+		let response = await fetch(url);
+		await this.timeout(5000);
 
-		
-
-		return result;
+		return response;
 	}
 
 	timeout(ms) {

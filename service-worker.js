@@ -9,6 +9,7 @@
 let CACHE_VERSION = '0.3';
 let CACHE_STATIC_NAME = 'static_v'+CACHE_VERSION;
 let CACHE_DYNAMIC_NAME = 'dynamic_v'+CACHE_VERSION;
+let CACHE_MEDIA_NAME = 'media_v'+CACHE_VERSION;
 let cacheFirst = ['getCoverArt.view', 'download.view'];
 
 self.addEventListener('install', function(event){
@@ -33,6 +34,7 @@ self.addEventListener('activate', function(event){
                     if (
                         key !== CACHE_STATIC_NAME && 
                         key !== CACHE_DYNAMIC_NAME && 
+                        key !== CACHE_MEDIA_NAME && 
                         !key.includes('playlist_')
                     ) {
                         return caches.delete(key);
@@ -54,7 +56,14 @@ self.addEventListener('fetch', function(event){
                         return response;
                     }else{
                         console.log('[SW] Punting to network');
-                        return fetch(event.request);
+                        return fetch(event.request).then((res)=>{
+                            return caches.open(CACHE_MEDIA_NAME)
+                                .then(function(cache) {
+                                    console.log('[SW] Adding to media cache');
+                                    cache.put(event.request.url, res.clone());
+                                    return res;
+                                });
+                        });
                     }
                 })
         );
