@@ -6,7 +6,7 @@
  * to build out your own caching strategy and other PWA features.
  */
 
-let CACHE_VERSION = '0.3';
+let CACHE_VERSION = '0.4';
 let CACHE_STATIC_NAME = 'static_v'+CACHE_VERSION;
 let CACHE_DYNAMIC_NAME = 'dynamic_v'+CACHE_VERSION;
 let CACHE_MEDIA_NAME = 'media_v'+CACHE_VERSION;
@@ -51,7 +51,6 @@ self.addEventListener('fetch', function(event){
         event.respondWith(
             caches.match(event.request, {ignoreVary: true})
                 .then(function(response){
-                    console.log("🚀 ~ file: service-worker.js ~ line 54 ~ .then ~ response", response)
                     if(response){
                         console.log('[SW] Responding with cache');
                         return response;
