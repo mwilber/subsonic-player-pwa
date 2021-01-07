@@ -49,8 +49,9 @@ self.addEventListener('fetch', function(event){
         // Images and audio are always cache first
         console.log('[SW] Cache First URL', event.request.url);
         event.respondWith(
-            caches.match(event.request)
+            caches.match(event.request, {ignoreVary: true})
                 .then(function(response){
+                    console.log("🚀 ~ file: service-worker.js ~ line 54 ~ .then ~ response", response)
                     if(response){
                         console.log('[SW] Responding with cache');
                         return response;
@@ -96,7 +97,7 @@ self.addEventListener('fetch', function(event){
                 .catch(function(err){
                     // Network failed, try pulling from cache
                     console.log('[SW] Network failed. Attempting cache.')
-                    return caches.match(event.request)
+                    return caches.match(event.request, {ignoreVary: true})
                         .then(function(response){
                             if(response){
                                 return response;
