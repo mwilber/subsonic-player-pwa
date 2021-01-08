@@ -11,7 +11,7 @@
  * check out the GreenZeta 10 minute PWA example at https://github.com/mwilber/gz-10-minute-pwa
  */ 
 import '../app-shell.css';
-import './serviceWorkerRegistration';
+//import './serviceWorkerRegistration';
 
 // Load application styles
 import '../styles/main.scss';

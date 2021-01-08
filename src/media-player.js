@@ -10,6 +10,9 @@ export class MediaPlayer{
 			pause: node.querySelector('.btn.pause')
 		};
 		this.display = {
+			title: node.querySelector('.display .title'),
+			album: node.querySelector('.display .album'),
+			artist: node.querySelector('.display .artist'),
 			timer: node.querySelector('.display .timer'),
 			duration: node.querySelector('.display .duration')
 		}
@@ -140,6 +143,9 @@ export class MediaPlayer{
 	}
 
 	PlayMediaFile(){
+		this.display.title.innerText = this.meta.title;
+		this.display.album.innerText = this.meta.album;
+		this.display.artist.innerText = this.meta.artist;
 		this.howl.play();
 		if ('mediaSession' in navigator) {
 			// TODO: Fix this, it's creating a new MediaMetadata object on each play. Should be created on load.

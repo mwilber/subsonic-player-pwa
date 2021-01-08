@@ -6,7 +6,7 @@
  * to build out your own caching strategy and other PWA features.
  */
 
-let CACHE_VERSION = '0.4';
+let CACHE_VERSION = '0.5';
 let CACHE_STATIC_NAME = 'static_v'+CACHE_VERSION;
 let CACHE_DYNAMIC_NAME = 'dynamic_v'+CACHE_VERSION;
 let CACHE_MEDIA_NAME = 'media_v'+CACHE_VERSION;
@@ -51,12 +51,16 @@ self.addEventListener('fetch', function(event){
         event.respondWith(
             caches.match(event.request, {ignoreVary: true})
                 .then(function(response){
-                    if(response){
+                    if(response && response.body){
                         console.log('[SW] Responding with cache');
                         return response;
                     }else{
                         console.log('[SW] Punting to network');
                         return fetch(event.request).then((res)=>{
+                            if( !res || !res.body ){
+                                console.log('[SW] Network request failed. Returning undefined.');
+                                return;
+                            }
                             return caches.open(CACHE_MEDIA_NAME)
                                 .then(function(cache) {
                                     console.log('[SW] Adding to media cache');
