@@ -7,7 +7,9 @@ export class MediaPlayer{
 		this.controls = {
 			load: node.querySelector('.btn.load'),
 			play: node.querySelector('.btn.play'),
-			pause: node.querySelector('.btn.pause')
+			pause: node.querySelector('.btn.pause'),
+			next: node.querySelector('.btn.next'),
+			previous: node.querySelector('.btn.previous')
 		};
 		this.display = {
 			title: node.querySelector('.display .title'),
@@ -99,6 +101,14 @@ export class MediaPlayer{
 		this.controls.pause.addEventListener('click', (evt)=>{
 			this.PauseMediaFile();
 		});
+
+		this.controls.next.addEventListener('click', (evt)=>{
+			this.NextMediaFile();
+		});
+
+		this.controls.previous.addEventListener('click', (evt)=>{
+			this.PreviousMediaFile();
+		});
 	}
 
 	UnloadMediaFile(){
@@ -125,9 +135,10 @@ export class MediaPlayer{
 			});
 	}
 
-	PlaySongObject(song){
+	PlaySongObject(song, cb){
 		this.UnloadMediaFile();
 		this.meta = song;
+		this.meta.cb = cb;
 		this.howl = new Howl({
 			src: this.meta.src,
 			html5: true,
@@ -147,6 +158,7 @@ export class MediaPlayer{
 		this.display.album.innerText = this.meta.album;
 		this.display.artist.innerText = this.meta.artist;
 		this.howl.play();
+		this.howl.on('end', this.meta.cb);
 		if ('mediaSession' in navigator) {
 			// TODO: Fix this, it's creating a new MediaMetadata object on each play. Should be created on load.
 			navigator.mediaSession.metadata = new MediaMetadata({
@@ -171,10 +183,10 @@ export class MediaPlayer{
 				this.PauseMediaFile();
 			});
 			navigator.mediaSession.setActionHandler('previoustrack', () => {
-				console.log('prev track');
+				this.PreviousMediaFile();
 			});
 			navigator.mediaSession.setActionHandler('nexttrack', () => {
-				console.log('next track');
+				this.NextMediaFile();
 			});
 			navigator.mediaSession.setActionHandler('seekbackward', (details) => {
 				let seek = this.howl.seek() || 0;
@@ -197,5 +209,13 @@ export class MediaPlayer{
 	PauseMediaFile(){
 		this.howl.pause();
 		navigator.mediaSession.playbackState = "paused";
+	}
+
+	NextMediaFile(){
+		// Placeholder. Override in MediaListing.
+	}
+
+	PreviousMediaFile(){
+		// Placeholder. Override in MediaListing.
 	}
 }

@@ -11,13 +11,25 @@ export class MediaListing{
 
 		this.controls = {
 			// load: node.querySelector('.btn.load'),
-			// play: node.querySelector('.btn.play'),
+			play: node.querySelector('.play-playlist')
 			// pause: node.querySelector('.btn.pause')
 		};
 		this.display = {
 			title: node.querySelector('h2'),
 			list: node.querySelector('ul')
 		}
+
+		this.SetControls();
+
+		this.mediaPlayer.NextMediaFile = this.PlayNextIndex.bind(this);
+		this.mediaPlayer.PreviousMediaFile = this.PlayPreviousIndex.bind(this);
+	}
+
+	SetControls(){
+		this.controls.play.addEventListener('click', (evt)=>{
+            console.log("🚀 ~ file: media-listing.js ~ line 25 ~ MediaListing ~ this.controls.play.addEventListener ~ evt", evt)
+			this.PlayIndex(0);
+		});
 	}
 	
 	SetListing(listing){
@@ -49,7 +61,6 @@ export class MediaListing{
 		this.display.list.textContent = '';
 
 		this.listing.songs.forEach((song, idx)=>{
-            console.log("🚀 ~ file: media-listing.js ~ line 52 ~ MediaListing ~ this.listing.songs.forEach ~ song, idx", song, idx)
 			let songBtn = document.createElement('button');
 			//songBtn.song = song;
 			songBtn.dataset.index = idx;
@@ -69,7 +80,7 @@ export class MediaListing{
 	PlayIndex(index){
 		if(typeof index !== 'number') this.idx = parseInt(index);
 		else this.idx = index;
-		this.mediaPlayer.PlaySongObject(this.listing.songs[this.idx]);
+		this.mediaPlayer.PlaySongObject(this.listing.songs[this.idx], this.PlayNextIndex.bind(this));
 	}
 
 	PlayNextIndex(){

@@ -28,36 +28,27 @@ let mediaPlayer = new MediaPlayer(document.querySelector('.media-player'), api);
 let mediaCache = new MediaCache();
 let mediaListing = new MediaListing(document.querySelector('.playlist'), mediaPlayer);
 
-let playlist = null;
-let playlistIdx = 0;
+// let playlist = null;
+// let playlistIdx = 0;
 
 api.GetPlaylist('800000012').then((data)=>{
-    console.log("🚀 ~ file: main.js ~ line 35 ~ api.GetPlaylist ~ data", data)
-	//playlist = data;
-	//shufflePlaylist(playlist.songs);
-	//let playlistElement = document.querySelector('.playlist ul');
-	//document.querySelector('.playlist h2').innerHTML = playlist.name;
 	mediaListing.SetListing(data);
 
 	let cacheBtn = document.querySelector('.playlist button.cache');
 	cacheBtn.addEventListener('click', (evt)=>{ mediaCache.CachePlaylist(playlist); });
 });
 
-document.querySelector('.play-playlist').addEventListener('click', (evt)=>{
-	mediaPlayer.PlaySongObject(playlist.songs[playlistIdx]);
-});
+// document.querySelector('.btn.next').addEventListener('click', (evt)=>{
+// 	// playlistIdx++;
+// 	// if( playlistIdx >= playlist.songs.length ) playlistIdx = 0;
+// 	// mediaPlayer.PlaySongObject(playlist.songs[playlistIdx]);
+// 	mediaListing.PlayNextIndex();
+// });
 
-document.querySelector('.btn.next').addEventListener('click', (evt)=>{
-	// playlistIdx++;
-	// if( playlistIdx >= playlist.songs.length ) playlistIdx = 0;
-	// mediaPlayer.PlaySongObject(playlist.songs[playlistIdx]);
-	mediaListing.PlayNextIndex();
-});
-
-document.querySelector('.btn.previous').addEventListener('click', (evt)=>{
-	// playlistIdx--;
-	// if( playlistIdx < 0 ) playlistIdx = playlist.songs.length - 1;
-	// mediaPlayer.PlaySongObject(playlist.songs[playlistIdx]);
-	mediaListing.PlayPreviousIndex();
-});
+// document.querySelector('.btn.previous').addEventListener('click', (evt)=>{
+// 	// playlistIdx--;
+// 	// if( playlistIdx < 0 ) playlistIdx = playlist.songs.length - 1;
+// 	// mediaPlayer.PlaySongObject(playlist.songs[playlistIdx]);
+// 	mediaListing.PlayPreviousIndex();
+// });
 
