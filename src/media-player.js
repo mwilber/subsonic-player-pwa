@@ -9,7 +9,8 @@ export class MediaPlayer{
 			play: node.querySelector('.btn.play'),
 			pause: node.querySelector('.btn.pause'),
 			next: node.querySelector('.btn.next'),
-			previous: node.querySelector('.btn.previous')
+			previous: node.querySelector('.btn.previous'),
+			scrubber: node.querySelector('.range.scrubber')
 		};
 		this.display = {
 			title: node.querySelector('.display .title'),
@@ -67,6 +68,11 @@ export class MediaPlayer{
 		self.display.timer.innerHTML = self.formatTime(Math.round(seek));
 		//progress.style.width = (((seek / sound.duration()) * 100) || 0) + '%';
 
+		// Update the scrubber position
+		if(document.activeElement != this.controls.scrubber){
+			this.controls.scrubber.value = Math.floor((seek/duration)*100);
+		}
+
 		// Update the media session api
 		if ('mediaSession' in navigator) {
 			navigator.mediaSession.setPositionState({
@@ -108,6 +114,12 @@ export class MediaPlayer{
 
 		this.controls.previous.addEventListener('click', (evt)=>{
 			this.PreviousMediaFile();
+		});
+
+		this.controls.scrubber.addEventListener('change', (evt)=>{
+			console.log('scrubber changed', this.controls.scrubber.value);
+			let duration = this.howl.duration();
+			this.howl.seek( duration * (this.controls.scrubber.value / 100) );
 		});
 	}
 
