@@ -1,6 +1,6 @@
 {
-	"name": "GreenZeta Webpack Boilerplate",
-	"short_name": "Boilerplate",
+	"name": "Subsonic Player PWA",
+	"short_name": "Subsonic Player",
 	"theme_color": "#7bb951",
 	"background_color": "#111313",
 	"display": "fullscreen",
