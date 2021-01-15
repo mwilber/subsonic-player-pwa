@@ -144,6 +144,9 @@ export class MediaPlayer{
 					},
 				});
 				this.artwork.style.backgroundImage = 'url('+this.meta.coverArt[0].src+')';
+				navigator.serviceWorker.controller.postMessage({
+					action: 'cache-version'
+				});
 			});
 	}
 
