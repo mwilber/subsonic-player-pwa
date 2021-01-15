@@ -113,3 +113,7 @@ self.addEventListener('fetch', function(event){
         );
     }
 });
+
+self.addEventListener('message', function (event) {
+	console.log('[SW] Message event received', event.data);
+});

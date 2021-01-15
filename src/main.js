@@ -35,7 +35,7 @@ api.GetPlaylist('800000012').then((data)=>{
 	mediaListing.SetListing(data);
 
 	let cacheBtn = document.querySelector('.playlist button.cache');
-	cacheBtn.addEventListener('click', (evt)=>{ mediaCache.CachePlaylist(playlist); });
+	cacheBtn.addEventListener('click', (evt)=>{ mediaCache.CachePlaylist(data); });
 });
 
 // document.querySelector('.btn.next').addEventListener('click', (evt)=>{
