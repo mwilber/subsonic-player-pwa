@@ -114,6 +114,18 @@ self.addEventListener('fetch', function(event){
     }
 });
 
-self.addEventListener('message', function (event) {
-	console.log('[SW] Message event received', event.data);
+self.addEventListener('message', async function (event) {
+    console.log('[SW] Message event received', event.data);
+    if(event.data.action){
+        const client = await clients.get(event.clientId);
+        switch(event.data.action){
+            case 'cache-version':
+                event.source.postMessage({
+                    type: 'cache-version',
+                    msg: CACHE_VERSION
+                });
+            default:
+                break;
+        }
+    }
 });

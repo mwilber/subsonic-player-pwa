@@ -16,11 +16,6 @@ export class MediaCache{
 
 	CachePlaylist(playlist){
 
-		// navigator.serviceWorker.controller.postMessage({
-		// 	action: 'iscached',
-		// 	urls: paths
-		// });
-
 		this.paths = null;
 		this.paths = playlist.songs.reduce((response, song)=>{
 			response.push(song.coverArt[0].src, ...song.src);

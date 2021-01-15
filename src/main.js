@@ -28,6 +28,17 @@ let mediaPlayer = new MediaPlayer(document.querySelector('.media-player'), api);
 let mediaCache = new MediaCache();
 let mediaListing = new MediaListing(document.querySelector('.playlist'), mediaPlayer);
 
+window.setTimeout(()=>{
+	navigator.serviceWorker.controller.postMessage({
+		action: 'cache-version'
+	});
+}, 1000);
+
+navigator.serviceWorker.addEventListener('message', event => {
+	if( event.data.type && event.data.type == 'cache-version')
+		document.getElementById('cache-version').innerText = event.data.msg;
+});
+
 // let playlist = null;
 // let playlistIdx = 0;
 
