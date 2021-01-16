@@ -1,3 +1,5 @@
+import './components/gz-list-item';
+
 export class MediaListing{
 
 	constructor(node, mediaPlayer){
@@ -23,6 +25,12 @@ export class MediaListing{
 
 		this.mediaPlayer.NextMediaFile = this.PlayNextIndex.bind(this);
 		this.mediaPlayer.PreviousMediaFile = this.PlayPreviousIndex.bind(this);
+
+		document.addEventListener('PlaylistPlayIndex',(evt)=>{
+			console.log('PlaylistPlayIndex', evt);
+			let {index} = evt.detail;
+			if(!isNaN(index)) this.PlayIndex(index);
+		});
 	}
 
 	SetControls(){
@@ -61,19 +69,26 @@ export class MediaListing{
 		this.display.list.textContent = '';
 
 		this.listing.songs.forEach((song, idx)=>{
-			let songBtn = document.createElement('button');
-			//songBtn.song = song;
-			songBtn.dataset.index = idx;
-			songBtn.innerText = song.title + ' [' + song.album + ']';
-			songBtn.addEventListener('click',(evt)=>{
-				//console.log(evt.target.song);
-				//this.mediaPlayer.PlaySongObject(evt.target.song);
-				this.PlayIndex(evt.target.dataset.index);
-			});
+			// let songBtn = document.createElement('button');
+			// //songBtn.song = song;
+			// songBtn.dataset.index = idx;
+			// songBtn.innerText = song.title + ' [' + song.album + ']';
+			// songBtn.addEventListener('click',(evt)=>{
+			// 	//console.log(evt.target.song);
+			// 	//this.mediaPlayer.PlaySongObject(evt.target.song);
+			// 	this.PlayIndex(evt.target.dataset.index);
+			// });
 	
+			// let listElement = document.createElement('li');
+			// listElement.appendChild(songBtn);
+			// this.display.list.appendChild(listElement);
+			let listItem = document.createElement('gz-list-item');
+			listItem.dataset.index = idx;
+			listItem.dataset.title = song.title + ' [' + song.album + ']';
 			let listElement = document.createElement('li');
-			listElement.appendChild(songBtn);
+			listElement.appendChild(listItem);
 			this.display.list.appendChild(listElement);
+
 		});
 	}
 
