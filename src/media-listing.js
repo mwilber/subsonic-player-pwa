@@ -35,11 +35,10 @@ export class MediaListing{
 
 	SetControls(){
 		this.controls.play.addEventListener('click', (evt)=>{
-            console.log("🚀 ~ file: media-listing.js ~ line 25 ~ MediaListing ~ this.controls.play.addEventListener ~ evt", evt)
 			this.PlayIndex(0);
 		});
 	}
-	
+
 	SetListing(listing){
 		if(!listing.songs || !listing.songs.length) return;
 		this.listing = {
@@ -85,6 +84,7 @@ export class MediaListing{
 			let listItem = document.createElement('gz-list-item');
 			listItem.dataset.index = idx;
 			listItem.dataset.title = song.title + ' [' + song.album + ']';
+			listItem.dataset.url = song.src;
 			let listElement = document.createElement('li');
 			listElement.appendChild(listItem);
 			this.display.list.appendChild(listElement);

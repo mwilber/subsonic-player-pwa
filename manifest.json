@@ -3,7 +3,7 @@
 	"short_name": "Subsonic Player",
 	"theme_color": "#7bb951",
 	"background_color": "#111313",
-	"display": "standalone",
+	"display": "fullscreen",
 	"Scope": "/",
 	"start_url": "/",
 	"icons": [

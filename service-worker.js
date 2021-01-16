@@ -55,8 +55,8 @@ self.addEventListener('fetch', function(event){
                         console.log('[SW] Responding with cache');
                         return response;
                     }else{
-                        console.log('[SW] Punting to network');
-                        return fetch(event.request).then((res)=>{
+                        console.log('[SW] Punting to network...', event.request);
+                        return fetch(event.request.url).then((res)=>{
                             if( !res || !res.body ){
                                 console.log('[SW] Network request failed. Returning undefined.');
                                 return;
@@ -84,7 +84,7 @@ self.addEventListener('fetch', function(event){
     }else{
         // Default to network with cache fallback
         event.respondWith(
-            fetch(event.request)
+            fetch(event.request.url)
                 .then(function(res){
                     // Skip caching the javascript bundle
                     // TODO: remove this before production
