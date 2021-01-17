@@ -215,22 +215,24 @@ window.customElements.define('media-player', class extends HTMLElement {
 			</style>
 
 			<!-- Controls -->
-			<div class="display">
+			<div class="meta">
 				<span class="title"></span>
 				<br>
-				<span class="album"></span>
-				<br>
-				<span class="artist"></span>
-				<div class="timer">0:00</div>
-				<div class="duration">0:00</div>
+				<strong class="album"></strong> <em class="artist"></em>
 			</div>
 			<div class="artwork"></div>
 			<div class="controls">
-				<button class="btn play" disabled>Play</button>
-				<button class="btn pause" disabled>Pause</button>
-				<button class="btn next">Next</button>
-				<button class="btn previous">Previous</button>
+			<button class="btn previous">Prev</button>
+			<button class="btn reverse">RW</button>
+			<button class="btn play" disabled>Play</button>
+			<button class="btn pause" style="display:none;" disabled>Pause</button>
+			<button class="btn forward">FF</button>
+			<button class="btn next">Next</button>
 				<!-- Progress -->
+				<div class="display">
+					<div class="timer">0:00</div>
+					<div class="duration">0:00</div>
+				</div>
 				<input class="range scrubber" type="range" min="0" max="100" value="0">
 				<!-- Volume -->
 			</div>
@@ -241,12 +243,14 @@ window.customElements.define('media-player', class extends HTMLElement {
 			pause: this.shadowRoot.querySelector('.btn.pause'),
 			next: this.shadowRoot.querySelector('.btn.next'),
 			previous: this.shadowRoot.querySelector('.btn.previous'),
+			forward: this.shadowRoot.querySelector('.btn.forward'),
+			reverse: this.shadowRoot.querySelector('.btn.reverse'),
 			scrubber: this.shadowRoot.querySelector('.range.scrubber')
 		};
 		this.display = {
-			title: this.shadowRoot.querySelector('.display .title'),
-			album: this.shadowRoot.querySelector('.display .album'),
-			artist: this.shadowRoot.querySelector('.display .artist'),
+			title: this.shadowRoot.querySelector('.meta .title'),
+			album: this.shadowRoot.querySelector('.meta .album'),
+			artist: this.shadowRoot.querySelector('.meta .artist'),
 			timer: this.shadowRoot.querySelector('.display .timer'),
 			duration: this.shadowRoot.querySelector('.display .duration')
 		}
@@ -278,5 +282,16 @@ window.customElements.define('media-player', class extends HTMLElement {
 			let duration = this.howl.duration();
 			this.howl.seek( duration * (this.controls.scrubber.value / 100) );
 		});
+
+		this.controls.forward.addEventListener('click', () => { 
+			let seek = this.howl.seek() || 0;
+			this.howl.seek( seek + 10 ); 
+		});
+
+		this.controls.reverse.addEventListener('click', () => { 
+			let seek = this.howl.seek() || 0;
+			this.howl.seek( seek - 10 ); 
+		});
+		
 	}
 });
