@@ -160,7 +160,6 @@ window.customElements.define('media-listing', class extends HTMLElement {
 			<button class="cache">Cache</button>
 			<button class="play-playlist">PL Play</button>
 			<button class="shuffle">Shuffle</button>
-			<div class="cache-status">...</div>
 			<ul>${list}</ul>
 		`;
 		
