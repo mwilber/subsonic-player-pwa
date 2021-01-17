@@ -7,7 +7,7 @@ window.customElements.define('media-list-item', class extends HTMLElement {
 
 		let shadowRoot = this.attachShadow({mode: 'open'});
 
-		this.mediaCacheName = 'media_v0.8';
+		this.mediaCacheName = 'media_v0.9';
 		this.cached = false;
 	}
 

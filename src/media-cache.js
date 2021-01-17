@@ -5,7 +5,7 @@ export class MediaCache{
 		this.errCt = 0;
 		this.extCt = 0;
 
-		this.mediaCacheName = 'media_v0.8';
+		this.mediaCacheName = 'media_v0.9';
 
 		navigator.serviceWorker.addEventListener('message', event => {
 			console.log('SUCCESS', event.data.msg, event.data.count);
