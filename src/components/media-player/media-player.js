@@ -21,6 +21,8 @@ window.customElements.define('media-player', class extends HTMLElement {
 			this.PlaySongObject(song, cb);
 		});
 
+		this.InitMediaSessionHandlers();
+
 		console.log('Created Media Player');
 	}
 
@@ -32,18 +34,23 @@ window.customElements.define('media-player', class extends HTMLElement {
 
 	}
 
-	// TODO: implement this instead of inline in play function
 	InitMediaSessionHandlers(){
 		const actionsAndHandlers = [
-			['play', () => { /*...*/ }],
-			['pause', () => { /*...*/ }],
-			['previoustrack', () => { /*...*/ }],
-			['nexttrack', () => { /*...*/ }],
-			['seekbackward', (details) => { /*...*/ }],
-			['seekforward', (details) => { /*...*/ }],
-			['seekto', (details) => { /*...*/ }],
-			['stop', () => { /*...*/ }]
-		]
+			['play', () => { this.PlayMediaFile(); }],
+			['pause', () => { this.PauseMediaFile(); }],
+			['previoustrack', () => { this.PreviousMediaFile(); }],
+			['nexttrack', () => { this.NextMediaFile(); }],
+			['seekbackward', (details) => { 
+				let seek = this.howl.seek() || 0;
+				this.howl.seek( seek - (details.seekOffset || 10) ); 
+			}],
+			['seekforward', (details) => {
+				let seek = this.howl.seek() || 0;
+				this.howl.seek( seek + (details.seekOffset || 10) );
+			}],
+			['seekto', (details) => { this.howl.seek( details.seekTime ); }],
+			['stop', () => { this.PauseMediaFile(); }]
+		];
 		 
 		for (const [action, handler] of actionsAndHandlers) {
 			try {
@@ -93,31 +100,6 @@ window.customElements.define('media-player', class extends HTMLElement {
 		return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
 	}
 
-	SetControls(){
-
-		this.controls.play.addEventListener('click', (evt)=>{
-			this.PlayMediaFile();
-		});
-
-		this.controls.pause.addEventListener('click', (evt)=>{
-			this.PauseMediaFile();
-		});
-
-		this.controls.next.addEventListener('click', (evt)=>{
-			this.NextMediaFile();
-		});
-
-		this.controls.previous.addEventListener('click', (evt)=>{
-			this.PreviousMediaFile();
-		});
-
-		this.controls.scrubber.addEventListener('change', (evt)=>{
-			console.log('scrubber changed', this.controls.scrubber.value);
-			let duration = this.howl.duration();
-			this.howl.seek( duration * (this.controls.scrubber.value / 100) );
-		});
-	}
-
 	UnloadMediaFile(){
 		console.log('Unloading audio file', this.howl);
 		if(this.howl && this.howl.unload) this.howl.unload();
@@ -159,16 +141,54 @@ window.customElements.define('media-player', class extends HTMLElement {
 				requestAnimationFrame(this.Step.bind(this));
 			},
 		});
+		this.display.title.innerText = this.meta.title;
+		this.display.album.innerText = this.meta.album;
+		this.display.artist.innerText = this.meta.artist;
 		this.artwork.style.backgroundImage = 'url('+this.meta.coverArt[0].src+')';
+
+		this.howl.on('end', this.meta.cb);
+
+		this.UpdateMediaSessionApi();
 		this.PlayMediaFile();
 	}
 
 	PlayMediaFile(){
-		this.display.title.innerText = this.meta.title;
-		this.display.album.innerText = this.meta.album;
-		this.display.artist.innerText = this.meta.artist;
+		if(this.howl.playing()) return;
 		this.howl.play();
-		this.howl.on('end', this.meta.cb);
+		this.controls.play.style.display = 'none';
+		this.controls.play.disabled = true;
+		this.controls.pause.style.display = 'initial';
+		this.controls.pause.disabled = false;
+		if ('mediaSession' in navigator) {
+			navigator.mediaSession.playbackState = "playing";
+		}
+	}
+
+	PauseMediaFile(){
+		if(!this.howl.playing()) return;
+		this.howl.pause();
+		this.controls.play.style.display = 'initial';
+		this.controls.play.disabled = false;
+		this.controls.pause.style.display = 'none';
+		this.controls.pause.disabled = true;
+		if ('mediaSession' in navigator) {
+			navigator.mediaSession.playbackState = "paused";
+		}
+	}
+
+	NextMediaFile(){
+		document.dispatchEvent(new CustomEvent('PlaylistPlayNext', {
+			detail:{}
+		}));
+	}
+
+	PreviousMediaFile(){
+		document.dispatchEvent(new CustomEvent('PlaylistPlayPrevious', {
+			detail:{}
+		}));
+	}
+
+	UpdateMediaSessionApi(){
 		if ('mediaSession' in navigator) {
 			// TODO: Fix this, it's creating a new MediaMetadata object on each play. Should be created on load.
 			navigator.mediaSession.metadata = new MediaMetadata({
@@ -182,55 +202,9 @@ window.customElements.define('media-player', class extends HTMLElement {
 			// 	// More sizes, like 192x192, 256x256, 384x384, and 512x512
 			//   ]
 			});
-			navigator.mediaSession.playbackState = "playing";
-			navigator.mediaSession.setActionHandler('play', () => {
-				this.PlayMediaFile();
-			});
-			navigator.mediaSession.setActionHandler('pause', () => {
-				this.PauseMediaFile();
-			});
-			navigator.mediaSession.setActionHandler('stop', () => {
-				this.PauseMediaFile();
-			});
-			navigator.mediaSession.setActionHandler('previoustrack', () => {
-				this.PreviousMediaFile();
-			});
-			navigator.mediaSession.setActionHandler('nexttrack', () => {
-				this.NextMediaFile();
-			});
-			navigator.mediaSession.setActionHandler('seekbackward', (details) => {
-				let seek = this.howl.seek() || 0;
-				this.howl.seek( seek - (details.seekOffset || 10) );
-			});
-			navigator.mediaSession.setActionHandler('seekforward', (details) => {
-				let seek = this.howl.seek() || 0;
-				this.howl.seek( seek + (details.seekOffset || 10) );
-			});
-			navigator.mediaSession.setActionHandler('seekto', (details) => {
-				// if (details.fastSeek && 'fastSeek' in alright) {
-				//   alright.fastSeek(details.seekTime);
-				//   return;
-				// }
-				this.howl.seek( details.seekTime );
-			});
+			
+			
 		}
-	}
-
-	PauseMediaFile(){
-		this.howl.pause();
-		navigator.mediaSession.playbackState = "paused";
-	}
-
-	NextMediaFile(){
-		document.dispatchEvent(new CustomEvent('PlaylistPlayNext', {
-			detail:{}
-		}));
-	}
-
-	PreviousMediaFile(){
-		document.dispatchEvent(new CustomEvent('PlaylistPlayPrevious', {
-			detail:{}
-		}));
 	}
 
 	render(){
@@ -252,8 +226,8 @@ window.customElements.define('media-player', class extends HTMLElement {
 			</div>
 			<div class="artwork"></div>
 			<div class="controls">
-				<button class="btn play">Play</button>
-				<button class="btn pause">Pause</button>
+				<button class="btn play" disabled>Play</button>
+				<button class="btn pause" disabled>Pause</button>
 				<button class="btn next">Next</button>
 				<button class="btn previous">Previous</button>
 				<!-- Progress -->
@@ -279,5 +253,30 @@ window.customElements.define('media-player', class extends HTMLElement {
 		this.artwork = this.shadowRoot.querySelector('.artwork');
 
 		this.SetControls();
+	}
+
+	SetControls(){
+
+		this.controls.play.addEventListener('click', (evt)=>{
+			this.PlayMediaFile();
+		});
+
+		this.controls.pause.addEventListener('click', (evt)=>{
+			this.PauseMediaFile();
+		});
+
+		this.controls.next.addEventListener('click', (evt)=>{
+			this.NextMediaFile();
+		});
+
+		this.controls.previous.addEventListener('click', (evt)=>{
+			this.PreviousMediaFile();
+		});
+
+		this.controls.scrubber.addEventListener('change', (evt)=>{
+			console.log('scrubber changed', this.controls.scrubber.value);
+			let duration = this.howl.duration();
+			this.howl.seek( duration * (this.controls.scrubber.value / 100) );
+		});
 	}
 });

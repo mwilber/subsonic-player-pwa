@@ -18,8 +18,8 @@ import '../styles/main.scss';
 
 // import {Howl, Howler} from 'howler';
 
-import { MediaPlayer } from './components/media-player/media-player';
-import { ApiSubsonic } from './api-subsonic';
+//import { MediaPlayer } from './components/media-player/media-player';
+//import { ApiSubsonic } from './api-subsonic';
 //import { MediaCache } from './media-cache';
 import './components/media-player/media-player';
 import './components/media-listing/media-listing';
@@ -34,9 +34,9 @@ navigator.serviceWorker.addEventListener('message', event => {
 		document.getElementById('cache-version').innerText = event.data.msg;
 });
 
-// let mediaListing = document.querySelector('media-listing');
-// mediaListing.dataset.type = 'playlist';
-// mediaListing.dataset.id = '800000013'
+let mediaListing = document.querySelector('media-listing');
+mediaListing.dataset.type = 'playlist';
+mediaListing.dataset.id = '800000013';
 
 document.getElementById('server').value = localStorage['server'];
 document.getElementById('user').value = localStorage['user'];
