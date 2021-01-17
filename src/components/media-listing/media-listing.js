@@ -1,7 +1,9 @@
 
-import './media-list-item';
-import { ApiSubsonic } from '../api-subsonic';
-import { MediaCache } from '../media-cache';
+import { ApiSubsonic } from '../../api-subsonic';
+import { MediaCache } from '../../media-cache';
+import '../media-list-item/media-list-item';
+
+import cssData from './media-listing.css';
 
 window.customElements.define('media-listing', class extends HTMLElement {
 
@@ -150,11 +152,15 @@ window.customElements.define('media-listing', class extends HTMLElement {
 		});
 
 		this.shadowRoot.innerHTML = `
+			<style>
+			  ${cssData}
+			</style>
+
+			<h2>${title}</h2>
 			<button class="cache">Cache</button>
 			<button class="play-playlist">PL Play</button>
 			<button class="shuffle">Shuffle</button>
 			<div class="cache-status">...</div>
-			<h2>${title}</h2>
 			<ul>${list}</ul>
 		`;
 		

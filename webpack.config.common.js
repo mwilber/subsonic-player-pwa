@@ -65,7 +65,7 @@ module.exports = {
             // CSS / SASS
             {
                 test: /\.(s)?css/,
-                exclude: /app-shell\.css$/,
+                exclude: [/app-shell\.css$/, /components\/.*\.(s)?css/],
                 use: [
                     'style-loader',
                     {
@@ -84,7 +84,13 @@ module.exports = {
                 ]
             },
 
-            /* CSS bundling rule, using SASS */
+            // INLINE WEB COMPONENT CSS
+            {
+                test:/components\/.*\.(s)?css/,
+                use:['css-loader']
+            },
+
+            // INITIAL GLOBAL STYLESHEET
 			{
 				test: /app-shell\.css$/,
 				use: [

@@ -1,4 +1,4 @@
-import { ApiSubsonic } from '../api-subsonic';
+import { ApiSubsonic } from '../../api-subsonic';
 
 window.customElements.define('playlist-listing', class extends HTMLElement {
 

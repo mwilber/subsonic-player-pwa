@@ -21,8 +21,8 @@ import '../styles/main.scss';
 import { MediaPlayer } from './media-player';
 import { ApiSubsonic } from './api-subsonic';
 //import { MediaCache } from './media-cache';
-import './components/media-listing';
-import './components/playlist-listing';
+import './components/media-listing/media-listing';
+import './components/playlist-listing/playlist-listing';
 
 let mediaPlayer = new MediaPlayer(document.querySelector('.media-player'), new ApiSubsonic());
 //let mediaCache = new MediaCache();

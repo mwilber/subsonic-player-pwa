@@ -1,4 +1,4 @@
-//import cssData from './gz-if.css';
+import cssData from './media-list-item.css';
 
 window.customElements.define('media-list-item', class extends HTMLElement {
 
@@ -77,19 +77,13 @@ window.customElements.define('media-list-item', class extends HTMLElement {
 		`;
 
 		this.shadowRoot.innerHTML = `
+			<style>
+			  ${cssData}
+			</style>
+
 			<button>${title}</button> ${cacheStatus}
 		`;
 
 		this.shadowRoot.querySelector('button').addEventListener('click', (evt)=>this.PlayTrack());
 	}
-	// render(){
-
-	//   this.shadowRoot.innerHTML = `
-	//     <style>
-	//       ${cssData}
-	//     </style>
-			
-	//     <slot name="${slotName}"></slot>
-	//   `;
-	// }
 });
