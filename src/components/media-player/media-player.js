@@ -1,35 +1,18 @@
 import {Howl, Howler} from 'howler';
+import { ApiSubsonic } from '../../api-subsonic';
 
-export class MediaPlayer{
+import cssData from './media-player.css';
+
+window.customElements.define('media-player', class extends HTMLElement {
 	constructor(node, api){
-		this.api = api;
-		
-		this.controls = {
-			load: node.querySelector('.btn.load'),
-			play: node.querySelector('.btn.play'),
-			pause: node.querySelector('.btn.pause'),
-			next: node.querySelector('.btn.next'),
-			previous: node.querySelector('.btn.previous'),
-			scrubber: node.querySelector('.range.scrubber')
-		};
-		this.display = {
-			title: node.querySelector('.display .title'),
-			album: node.querySelector('.display .album'),
-			artist: node.querySelector('.display .artist'),
-			timer: node.querySelector('.display .timer'),
-			duration: node.querySelector('.display .duration')
-		}
-		this.artwork = node.querySelector('.artwork');
+		super();
+
+		this.api = new ApiSubsonic();
+		let shadowRoot = this.attachShadow({mode: 'open'});
 
 		// Audio playback managed by Howler.js
 		this.howl = null;
 		this.meta = null;
-		
-		this.SetControls();
-
-		document.getElementById('server').value = localStorage['server'];
-		document.getElementById('user').value = localStorage['user'];
-		document.getElementById('pass').value = localStorage['pass'];
 
 		document.addEventListener('PlaySongObject',(evt)=>{
 			console.log('PlaySongObject', evt);
@@ -39,6 +22,14 @@ export class MediaPlayer{
 		});
 
 		console.log('Created Media Player');
+	}
+
+	connectedCallback() {
+		this.render();
+	}
+
+	disconnectedCallback(){
+
 	}
 
 	// TODO: implement this instead of inline in play function
@@ -103,9 +94,6 @@ export class MediaPlayer{
 	}
 
 	SetControls(){
-		this.controls.load.addEventListener('click', (evt)=>{
-			this.LoadMediaFile();
-		});
 
 		this.controls.play.addEventListener('click', (evt)=>{
 			this.PlayMediaFile();
@@ -135,27 +123,27 @@ export class MediaPlayer{
 		if(this.howl && this.howl.unload) this.howl.unload();
 	}
 
-	LoadMediaFile(){
-		this.UnloadMediaFile();
-		this.api.GetSong('300002556')
-			.then((data)=>{
-				this.meta = data;
-				this.howl = new Howl({
-					src: this.meta.src,
-					html5: true,
-					onplay: ()=>{
-						// Display the duration.
-						this.display.duration.innerHTML = this.formatTime(Math.round(this.howl.duration()));
-						// Start upating the progress of the track.
-						requestAnimationFrame(this.Step.bind(this));
-					},
-				});
-				this.artwork.style.backgroundImage = 'url('+this.meta.coverArt[0].src+')';
-				navigator.serviceWorker.controller.postMessage({
-					action: 'cache-version'
-				});
-			});
-	}
+	// LoadMediaFile(){
+	// 	this.UnloadMediaFile();
+	// 	this.api.GetSong('300002556')
+	// 		.then((data)=>{
+	// 			this.meta = data;
+	// 			this.howl = new Howl({
+	// 				src: this.meta.src,
+	// 				html5: true,
+	// 				onplay: ()=>{
+	// 					// Display the duration.
+	// 					this.display.duration.innerHTML = this.formatTime(Math.round(this.howl.duration()));
+	// 					// Start upating the progress of the track.
+	// 					requestAnimationFrame(this.Step.bind(this));
+	// 				},
+	// 			});
+	// 			this.artwork.style.backgroundImage = 'url('+this.meta.coverArt[0].src+')';
+	// 			navigator.serviceWorker.controller.postMessage({
+	// 				action: 'cache-version'
+	// 			});
+	// 		});
+	// }
 
 	PlaySongObject(song, cb){
 		this.UnloadMediaFile();
@@ -244,4 +232,52 @@ export class MediaPlayer{
 			detail:{}
 		}));
 	}
-}
+
+	render(){
+
+		this.shadowRoot.innerHTML = `
+			<style>
+			  ${cssData}
+			</style>
+
+			<!-- Controls -->
+			<div class="display">
+				<span class="title"></span>
+				<br>
+				<span class="album"></span>
+				<br>
+				<span class="artist"></span>
+				<div class="timer">0:00</div>
+				<div class="duration">0:00</div>
+			</div>
+			<div class="artwork"></div>
+			<div class="controls">
+				<button class="btn play">Play</button>
+				<button class="btn pause">Pause</button>
+				<button class="btn next">Next</button>
+				<button class="btn previous">Previous</button>
+				<!-- Progress -->
+				<input class="range scrubber" type="range" min="0" max="100" value="0">
+				<!-- Volume -->
+			</div>
+		`;
+
+		this.controls = {
+			play: this.shadowRoot.querySelector('.btn.play'),
+			pause: this.shadowRoot.querySelector('.btn.pause'),
+			next: this.shadowRoot.querySelector('.btn.next'),
+			previous: this.shadowRoot.querySelector('.btn.previous'),
+			scrubber: this.shadowRoot.querySelector('.range.scrubber')
+		};
+		this.display = {
+			title: this.shadowRoot.querySelector('.display .title'),
+			album: this.shadowRoot.querySelector('.display .album'),
+			artist: this.shadowRoot.querySelector('.display .artist'),
+			timer: this.shadowRoot.querySelector('.display .timer'),
+			duration: this.shadowRoot.querySelector('.display .duration')
+		}
+		this.artwork = this.shadowRoot.querySelector('.artwork');
+
+		this.SetControls();
+	}
+});

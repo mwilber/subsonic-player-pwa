@@ -57,61 +57,7 @@
 			</div>
 		</div>
 		<h1><%= htmlWebpackPlugin.options.data.title %></h1>
-		<div class="media-player">
-			<!-- Controls -->
-			<div class="display">
-				<span class="title"></span>
-				<br>
-				<span class="album"></span>
-				<br>
-				<span class="artist"></span>
-				<div class="timer">0:00</div>
-				<div class="duration">0:00</div>
-			</div>
-			<div class="artwork"></div>
-			<div class="controls">
-				<button class="btn load">Login</button>
-				<button class="btn play">Play</button>
-				<button class="btn pause">Pause</button>
-				<button class="btn next">Next</button>
-				<button class="btn previous">Previous</button>
-				<input class="range scrubber" type="range" min="0" max="100" value="0">
-			</div>
-			<!-- Progress -->
-			<!-- Playlist -->
-			<!-- Volume -->
-			<!-- <div id="title">
-				<span id="track"></span>
-				<div id="timer">0:00</div>
-				<div id="duration">0:00</div>
-			</div>
-		
-			<div class="controlsOuter">
-			<div class="controlsInner">
-				<div id="loading"></div>
-				<div class="btn" id="playBtn"></div>
-				<div class="btn" id="pauseBtn"></div>
-				<div class="btn" id="prevBtn"></div>
-				<div class="btn" id="nextBtn"></div>
-			</div>
-			<div class="btn" id="playlistBtn"></div>
-			<div class="btn" id="volumeBtn"></div>
-			</div>
-		
-			<div id="waveform"></div>
-			<div id="bar"></div>
-			<div id="progress"></div>
-		
-			<div id="playlist">
-			<div id="list"></div>
-			</div>
-		
-			<div id="volume" class="fadeout">
-				<div id="barFull" class="bar"></div>
-				<div id="barEmpty" class="bar"></div>
-				<div id="sliderBtn"></div>
-			</div> -->
-		</div>
+		<media-player><!-- Media Player --></media-player>
 		<!-- <div class="playlist">
 			<button class="cache">Cache</button>
 			<button class="play-playlist">PL Play</button>
@@ -122,6 +68,7 @@
 		<playlist-listing><!-- Playlist Listing --></playlist-listing>
 		<media-listing><!-- Media Listing --></media-listing>
 		<div class="creds">
+			<button class="login">Login</button>
 			<input id="server" type="text" placeholder="server"/>
 			<input id="user" type="text" placeholder="user"/>
 			<input id="pass" type="text" placeholder="pass"/>

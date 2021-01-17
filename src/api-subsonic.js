@@ -6,13 +6,6 @@ export class ApiSubsonic{
 
 	GetServerQuery(method, params){
 
-		if(!localStorage['server'])
-			localStorage['server'] = document.getElementById('server').value;
-		if(!localStorage['user'])
-			localStorage['user'] = document.getElementById('user').value;
-		if(!localStorage['pass'])
-			localStorage['pass'] = document.getElementById('pass').value;
-
 		let server = localStorage['server'];
 		let user = localStorage['user'];
 		let pass = localStorage['pass'];

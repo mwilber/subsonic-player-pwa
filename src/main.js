@@ -18,13 +18,14 @@ import '../styles/main.scss';
 
 // import {Howl, Howler} from 'howler';
 
-import { MediaPlayer } from './media-player';
+import { MediaPlayer } from './components/media-player/media-player';
 import { ApiSubsonic } from './api-subsonic';
 //import { MediaCache } from './media-cache';
+import './components/media-player/media-player';
 import './components/media-listing/media-listing';
 import './components/playlist-listing/playlist-listing';
 
-let mediaPlayer = new MediaPlayer(document.querySelector('.media-player'), new ApiSubsonic());
+//let mediaPlayer = new MediaPlayer(document.querySelector('.media-player'), new ApiSubsonic());
 //let mediaCache = new MediaCache();
 //let mediaListing = new MediaListing(document.querySelector('.playlist'), mediaPlayer);
 
@@ -33,9 +34,24 @@ navigator.serviceWorker.addEventListener('message', event => {
 		document.getElementById('cache-version').innerText = event.data.msg;
 });
 
-let mediaListing = document.querySelector('media-listing');
-mediaListing.dataset.type = 'playlist';
-mediaListing.dataset.id = '800000013'
+// let mediaListing = document.querySelector('media-listing');
+// mediaListing.dataset.type = 'playlist';
+// mediaListing.dataset.id = '800000013'
+
+document.getElementById('server').value = localStorage['server'];
+document.getElementById('user').value = localStorage['user'];
+document.getElementById('pass').value = localStorage['pass'];
+
+document.querySelector('button.login').addEventListener('click', ()=>{
+	if(!localStorage['server'])
+		localStorage['server'] = document.getElementById('server').value;
+	if(!localStorage['user'])
+		localStorage['user'] = document.getElementById('user').value;
+	if(!localStorage['pass'])
+		localStorage['pass'] = document.getElementById('pass').value;
+
+	document.querySelector('playlist-listing').LoadListing();
+});
 
 
 // let playlist = null;
