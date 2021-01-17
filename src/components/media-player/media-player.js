@@ -1,5 +1,6 @@
 import {Howl, Howler} from 'howler';
 import { ApiSubsonic } from '../../api-subsonic';
+import NoSleep from 'nosleep.js';
 
 import cssData from './media-player.css';
 
@@ -7,6 +8,7 @@ window.customElements.define('media-player', class extends HTMLElement {
 	constructor(node, api){
 		super();
 
+		this.noSleep = new NoSleep();
 		this.api = new ApiSubsonic();
 		let shadowRoot = this.attachShadow({mode: 'open'});
 
@@ -103,6 +105,8 @@ window.customElements.define('media-player', class extends HTMLElement {
 	UnloadMediaFile(){
 		console.log('Unloading audio file', this.howl);
 		if(this.howl && this.howl.unload) this.howl.unload();
+		// Disable wake lock
+		this.noSleep.disable();
 	}
 
 	PlaySongObject(song, cb){
@@ -133,6 +137,8 @@ window.customElements.define('media-player', class extends HTMLElement {
 	PlayMediaFile(){
 		if(this.howl.playing()) return;
 		this.howl.play();
+		// Enable wake lock
+		this.noSleep.enable();
 		this.controls.play.style.display = 'none';
 		this.controls.play.disabled = true;
 		this.controls.pause.style.display = 'initial';
@@ -145,6 +151,8 @@ window.customElements.define('media-player', class extends HTMLElement {
 	PauseMediaFile(){
 		if(!this.howl.playing()) return;
 		this.howl.pause();
+		// Disable wake lock
+		this.noSleep.disable();
 		this.controls.play.style.display = 'initial';
 		this.controls.play.disabled = false;
 		this.controls.pause.style.display = 'none';

@@ -43,6 +43,7 @@
     "webpack-merge": "^4.2.1"
   },
   "dependencies": {
-    "howler": "^2.2.1"
+    "howler": "^2.2.1",
+    "nosleep.js": "^0.12.0"
   }
 }
