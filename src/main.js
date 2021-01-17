@@ -16,27 +16,22 @@ import './serviceWorkerRegistration';
 // Load application styles
 import '../styles/main.scss';
 
-// import {Howl, Howler} from 'howler';
-
-//import { MediaPlayer } from './components/media-player/media-player';
-//import { ApiSubsonic } from './api-subsonic';
-//import { MediaCache } from './media-cache';
 import './components/media-player/media-player';
 import './components/media-listing/media-listing';
 import './components/playlist-listing/playlist-listing';
-
-//let mediaPlayer = new MediaPlayer(document.querySelector('.media-player'), new ApiSubsonic());
-//let mediaCache = new MediaCache();
-//let mediaListing = new MediaListing(document.querySelector('.playlist'), mediaPlayer);
 
 navigator.serviceWorker.addEventListener('message', event => {
 	if( event.data.type && event.data.type == 'cache-version')
 		document.getElementById('cache-version').innerText = event.data.msg;
 });
 
+///////////////////////////////////////////////
+// Auto load test playlist - REMOVE THIS LATER
+///////////////////////////////////////////////
 let mediaListing = document.querySelector('media-listing');
 mediaListing.dataset.type = 'playlist';
 mediaListing.dataset.id = '800000013';
+///////////////////////////////////////////////
 
 document.getElementById('server').value = localStorage['server'];
 document.getElementById('user').value = localStorage['user'];
@@ -52,29 +47,3 @@ document.querySelector('button.login').addEventListener('click', ()=>{
 
 	document.querySelector('playlist-listing').LoadListing();
 });
-
-
-// let playlist = null;
-// let playlistIdx = 0;
-
-// api.GetPlaylist('800000013').then((data)=>{
-// 	mediaListing.SetListing(data);
-
-// 	let cacheBtn = document.querySelector('.playlist button.cache');
-// 	cacheBtn.addEventListener('click', (evt)=>{ mediaCache.CachePlaylist(data); });
-// });
-
-// document.querySelector('.btn.next').addEventListener('click', (evt)=>{
-// 	// playlistIdx++;
-// 	// if( playlistIdx >= playlist.songs.length ) playlistIdx = 0;
-// 	// mediaPlayer.PlaySongObject(playlist.songs[playlistIdx]);
-// 	mediaListing.PlayNextIndex();
-// });
-
-// document.querySelector('.btn.previous').addEventListener('click', (evt)=>{
-// 	// playlistIdx--;
-// 	// if( playlistIdx < 0 ) playlistIdx = playlist.songs.length - 1;
-// 	// mediaPlayer.PlaySongObject(playlist.songs[playlistIdx]);
-// 	mediaListing.PlayPreviousIndex();
-// });
-

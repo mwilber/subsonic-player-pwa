@@ -105,28 +105,6 @@ window.customElements.define('media-player', class extends HTMLElement {
 		if(this.howl && this.howl.unload) this.howl.unload();
 	}
 
-	// LoadMediaFile(){
-	// 	this.UnloadMediaFile();
-	// 	this.api.GetSong('300002556')
-	// 		.then((data)=>{
-	// 			this.meta = data;
-	// 			this.howl = new Howl({
-	// 				src: this.meta.src,
-	// 				html5: true,
-	// 				onplay: ()=>{
-	// 					// Display the duration.
-	// 					this.display.duration.innerHTML = this.formatTime(Math.round(this.howl.duration()));
-	// 					// Start upating the progress of the track.
-	// 					requestAnimationFrame(this.Step.bind(this));
-	// 				},
-	// 			});
-	// 			this.artwork.style.backgroundImage = 'url('+this.meta.coverArt[0].src+')';
-	// 			navigator.serviceWorker.controller.postMessage({
-	// 				action: 'cache-version'
-	// 			});
-	// 		});
-	// }
-
 	PlaySongObject(song, cb){
 		this.UnloadMediaFile();
 		this.meta = song;

@@ -49,14 +49,6 @@ window.customElements.define('playlist-listing', class extends HTMLElement {
 			listElem.appendChild(button);
 
 		});
-		
-		// this.shadowRoot.querySelector('button.play-playlist').addEventListener('click', (evt)=>{
-		// 	this.PlayIndex(0);
-		// });
-
-		// this.shadowRoot.querySelector('button.cache').addEventListener('click', (evt)=>{
-		// 	this.mediaCache.CachePlaylist(this.listing);
-		// });
 	}
 
 });

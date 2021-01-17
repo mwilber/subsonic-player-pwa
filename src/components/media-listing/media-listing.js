@@ -13,28 +13,6 @@ window.customElements.define('media-listing', class extends HTMLElement {
 		this.api = new ApiSubsonic();
 		this.mediaCache = new MediaCache();
 		let shadowRoot = this.attachShadow({mode: 'open'});
-		// this.mediaPlayer = mediaPlayer;
-		// this.node = node;
-		// this.listing = {
-		// 	name: '',
-		// 	songs: []
-		// };
-		// this.idx = 0;
-
-		// this.controls = {
-		// 	// load: node.querySelector('.btn.load'),
-		// 	play: node.querySelector('.play-playlist')
-		// 	// pause: node.querySelector('.btn.pause')
-		// };
-		// this.display = {
-		// 	title: node.querySelector('h2'),
-		// 	list: node.querySelector('ul')
-		// }
-
-		// this.SetControls();
-
-		// this.mediaPlayer.NextMediaFile = this.PlayNextIndex.bind(this);
-		// this.mediaPlayer.PreviousMediaFile = this.PlayPreviousIndex.bind(this);
 
 		document.addEventListener('PlaylistPlayIndex',(evt)=>{
 			console.log('PlaylistPlayIndex', evt);
@@ -74,12 +52,6 @@ window.customElements.define('media-listing', class extends HTMLElement {
 			case 'playlist':
 				let data = await this.api.GetPlaylist(id);
 				this.SetListing(data);
-				// api.GetPlaylist('800000013').then((data)=>{
-				// 	mediaListing.SetListing(data);
-
-				// 	let cacheBtn = document.querySelector('.playlist button.cache');
-				// 	cacheBtn.addEventListener('click', (evt)=>{ mediaCache.CachePlaylist(data); });
-				// });
 				break;
 			default:
 				break;
@@ -116,25 +88,6 @@ window.customElements.define('media-listing', class extends HTMLElement {
 		let list = "";
 
 		this.listing.songs.forEach((song, idx)=>{
-			// let songBtn = document.createElement('button');
-			// //songBtn.song = song;
-			// songBtn.dataset.index = idx;
-			// songBtn.innerText = song.title + ' [' + song.album + ']';
-			// songBtn.addEventListener('click',(evt)=>{
-			// 	//console.log(evt.target.song);
-			// 	//this.mediaPlayer.PlaySongObject(evt.target.song);
-			// 	this.PlayIndex(evt.target.dataset.index);
-			// });
-	
-			// let listElement = document.createElement('li');
-			// listElement.appendChild(songBtn);
-			// this.display.list.appendChild(listElement);
-			// let listItem = document.createElement('gz-list-item');
-			// listItem.dataset.index = idx;
-			// listItem.dataset.title = song.title + ' [' + song.album + ']';
-			// listItem.dataset.url = song.src;
-			// let listElement = document.createElement('li');
-			// listElement.appendChild(listItem);
 			let songTitle = song.title + ' [' + song.album + ']';
 			let songUrl = song.src;
 			list += `
@@ -147,8 +100,6 @@ window.customElements.define('media-listing', class extends HTMLElement {
 					</media-list-item>
 				</li>
 			`;
-			//this.display.list.appendChild(listElement);
-
 		});
 
 		this.shadowRoot.innerHTML = `
