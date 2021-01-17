@@ -11,7 +11,7 @@
  * check out the GreenZeta 10 minute PWA example at https://github.com/mwilber/gz-10-minute-pwa
  */ 
 import '../app-shell.css';
-import './serviceWorkerRegistration';
+//import './serviceWorkerRegistration';
 
 // Load application styles
 import '../styles/main.scss';
@@ -20,11 +20,12 @@ import '../styles/main.scss';
 
 import { MediaPlayer } from './media-player';
 import { ApiSubsonic } from './api-subsonic';
-import { MediaCache } from './media-cache';
-import './media-listing';
+//import { MediaCache } from './media-cache';
+import './components/media-listing';
+import './components/playlist-listing';
 
 let mediaPlayer = new MediaPlayer(document.querySelector('.media-player'), new ApiSubsonic());
-let mediaCache = new MediaCache();
+//let mediaCache = new MediaCache();
 //let mediaListing = new MediaListing(document.querySelector('.playlist'), mediaPlayer);
 
 navigator.serviceWorker.addEventListener('message', event => {

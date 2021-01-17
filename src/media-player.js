@@ -234,10 +234,14 @@ export class MediaPlayer{
 	}
 
 	NextMediaFile(){
-		// Placeholder. Override in MediaListing.
+		document.dispatchEvent(new CustomEvent('PlaylistPlayNext', {
+			detail:{}
+		}));
 	}
 
 	PreviousMediaFile(){
-		// Placeholder. Override in MediaListing.
+		document.dispatchEvent(new CustomEvent('PlaylistPlayPrevious', {
+			detail:{}
+		}));
 	}
 }

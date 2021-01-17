@@ -6,9 +6,12 @@ export class ApiSubsonic{
 
 	GetServerQuery(method, params){
 
-		localStorage['server'] = document.getElementById('server').value;
-		localStorage['user'] = document.getElementById('user').value;
-		localStorage['pass'] = document.getElementById('pass').value;
+		if(!localStorage['server'])
+			localStorage['server'] = document.getElementById('server').value;
+		if(!localStorage['user'])
+			localStorage['user'] = document.getElementById('user').value;
+		if(!localStorage['pass'])
+			localStorage['pass'] = document.getElementById('pass').value;
 
 		let server = localStorage['server'];
 		let user = localStorage['user'];
@@ -74,5 +77,21 @@ export class ApiSubsonic{
 					return playlistObj;
 				}
 			);
+	}
+
+	GetPlaylists(){
+		return fetch(this.GetServerQuery('getPlaylists',{}))
+		.then(response => response.json())
+		.then(
+			(data)=>{
+				if( !data['subsonic-response'] || data['subsonic-response'].status !== 'ok' ) return;
+
+				let playlistsObj = [];
+				if(data['subsonic-response'].playlists && data['subsonic-response'].playlists.playlist && data['subsonic-response'].playlists.playlist.slice)
+					playlistsObj = data['subsonic-response'].playlists.playlist.slice();
+
+				return playlistsObj;
+			}
+		);
 	}
 }

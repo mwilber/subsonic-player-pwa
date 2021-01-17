@@ -1,6 +1,7 @@
 
-import './components/gz-list-item';
-import { ApiSubsonic } from './api-subsonic';
+import './media-list-item';
+import { ApiSubsonic } from '../api-subsonic';
+import { MediaCache } from '../media-cache';
 
 window.customElements.define('media-listing', class extends HTMLElement {
 
@@ -8,6 +9,7 @@ window.customElements.define('media-listing', class extends HTMLElement {
 		super();
 
 		this.api = new ApiSubsonic();
+		this.mediaCache = new MediaCache();
 		let shadowRoot = this.attachShadow({mode: 'open'});
 		// this.mediaPlayer = mediaPlayer;
 		// this.node = node;
@@ -37,6 +39,14 @@ window.customElements.define('media-listing', class extends HTMLElement {
 			let {index} = evt.detail;
 			if(!isNaN(index)) this.PlayIndex(index);
 		});
+
+		document.addEventListener('PlaylistPlayNext',(evt)=>{
+			this.PlayNextIndex();
+		});
+		document.addEventListener('PlaylistPlayPrevious',(evt)=>{
+			this.PlayPreviousIndex();
+		});
+
 	}
 
 	static get observedAttributes() {
@@ -52,12 +62,6 @@ window.customElements.define('media-listing', class extends HTMLElement {
 			default:
 				break;
 		}
-	}
-
-	SetControls(){
-		this.controls.play.addEventListener('click', (evt)=>{
-			this.PlayIndex(0);
-		});
 	}
 
 	async LoadListing(){
@@ -91,12 +95,14 @@ window.customElements.define('media-listing', class extends HTMLElement {
 
 	ShuffleListing(){
 		/* Shuffle the playlist using Durstenfeld algorithm */
-		for (let i = this.listing.length - 1; i > 0; i--) {
+		console.log('before', JSON.stringify(this.listing));
+		for (let i = this.listing.songs.length - 1; i > 0; i--) {
 			let j = Math.floor(Math.random() * (i + 1));
-			let temp = this.listing[i];
-			this.listing[i] = this.listing[j];
-			this.listing[j] = temp;
+			let temp = this.listing.songs[i];
+			this.listing.songs[i] = this.listing.songs[j];
+			this.listing.songs[j] = temp;
 		}
+		console.log('after', JSON.stringify(this.listing));
 	}
 
 	SortListing(method){
@@ -131,12 +137,12 @@ window.customElements.define('media-listing', class extends HTMLElement {
 			let songUrl = song.src;
 			list += `
 				<li>
-					<gz-list-item
+					<media-list-item
 						data-index="${idx}"
 						data-title="${songTitle}"
 						data-url="${songUrl}"
 					>
-					</gz-list-item>
+					</media-list-item>
 				</li>
 			`;
 			//this.display.list.appendChild(listElement);
@@ -146,11 +152,24 @@ window.customElements.define('media-listing', class extends HTMLElement {
 		this.shadowRoot.innerHTML = `
 			<button class="cache">Cache</button>
 			<button class="play-playlist">PL Play</button>
+			<button class="shuffle">Shuffle</button>
 			<div class="cache-status">...</div>
 			<h2>${title}</h2>
 			<ul>${list}</ul>
 		`;
 		
+		this.shadowRoot.querySelector('button.play-playlist').addEventListener('click', (evt)=>{
+			this.PlayIndex(0);
+		});
+
+		this.shadowRoot.querySelector('button.cache').addEventListener('click', (evt)=>{
+			this.mediaCache.CachePlaylist(this.listing);
+		});
+
+		this.shadowRoot.querySelector('button.shuffle').addEventListener('click', (evt)=>{
+			this.ShuffleListing();
+			this.render();
+		});
 	}
 
 	PlayIndex(index){

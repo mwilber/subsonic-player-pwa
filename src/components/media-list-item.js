@@ -1,6 +1,6 @@
 //import cssData from './gz-if.css';
 
-window.customElements.define('gz-list-item', class extends HTMLElement {
+window.customElements.define('media-list-item', class extends HTMLElement {
 
 	constructor(){
 		super();
