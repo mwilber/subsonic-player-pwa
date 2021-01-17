@@ -31,6 +31,7 @@ window.customElements.define('gz-list-item', class extends HTMLElement {
 			case 'data-title':
 				console.log('data title changed')
 				this.render();
+				break;
 			default:
 				break;
 		}

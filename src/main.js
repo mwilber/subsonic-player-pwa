@@ -21,27 +21,31 @@ import '../styles/main.scss';
 import { MediaPlayer } from './media-player';
 import { ApiSubsonic } from './api-subsonic';
 import { MediaCache } from './media-cache';
-import { MediaListing } from './media-listing';
+import './media-listing';
 
-let api = new ApiSubsonic();
-let mediaPlayer = new MediaPlayer(document.querySelector('.media-player'), api);
+let mediaPlayer = new MediaPlayer(document.querySelector('.media-player'), new ApiSubsonic());
 let mediaCache = new MediaCache();
-let mediaListing = new MediaListing(document.querySelector('.playlist'), mediaPlayer);
+//let mediaListing = new MediaListing(document.querySelector('.playlist'), mediaPlayer);
 
 navigator.serviceWorker.addEventListener('message', event => {
 	if( event.data.type && event.data.type == 'cache-version')
 		document.getElementById('cache-version').innerText = event.data.msg;
 });
 
+let mediaListing = document.querySelector('media-listing');
+mediaListing.dataset.type = 'playlist';
+mediaListing.dataset.id = '800000013'
+
+
 // let playlist = null;
 // let playlistIdx = 0;
 
-api.GetPlaylist('800000013').then((data)=>{
-	mediaListing.SetListing(data);
+// api.GetPlaylist('800000013').then((data)=>{
+// 	mediaListing.SetListing(data);
 
-	let cacheBtn = document.querySelector('.playlist button.cache');
-	cacheBtn.addEventListener('click', (evt)=>{ mediaCache.CachePlaylist(data); });
-});
+// 	let cacheBtn = document.querySelector('.playlist button.cache');
+// 	cacheBtn.addEventListener('click', (evt)=>{ mediaCache.CachePlaylist(data); });
+// });
 
 // document.querySelector('.btn.next').addEventListener('click', (evt)=>{
 // 	// playlistIdx++;

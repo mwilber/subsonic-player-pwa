@@ -31,6 +31,13 @@ export class MediaPlayer{
 		document.getElementById('user').value = localStorage['user'];
 		document.getElementById('pass').value = localStorage['pass'];
 
+		document.addEventListener('PlaySongObject',(evt)=>{
+			console.log('PlaySongObject', evt);
+			let {song, cb} = evt.detail;
+			if(!song) return;
+			this.PlaySongObject(song, cb);
+		});
+
 		console.log('Created Media Player');
 	}
 
