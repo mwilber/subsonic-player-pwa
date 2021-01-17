@@ -105,8 +105,6 @@ window.customElements.define('media-player', class extends HTMLElement {
 	UnloadMediaFile(){
 		console.log('Unloading audio file', this.howl);
 		if(this.howl && this.howl.unload) this.howl.unload();
-		// Disable wake lock
-		this.noSleep.disable();
 	}
 
 	PlaySongObject(song, cb){
@@ -117,11 +115,21 @@ window.customElements.define('media-player', class extends HTMLElement {
 			src: this.meta.src,
 			html5: true,
 			onplay: ()=>{
+				// Enable wake lock
+				this.noSleep.enable();
 				// Display the duration.
 				this.display.duration.innerHTML = this.formatTime(Math.round(this.howl.duration()));
 				// Start upating the progress of the track.
 				requestAnimationFrame(this.Step.bind(this));
 			},
+			onpause: ()=>{
+				// Disable wake lock
+				this.noSleep.disable();
+			},
+			onstop: ()=>{
+				// Disable wake lock
+				this.noSleep.disable();
+			}
 		});
 		this.display.title.innerText = this.meta.title;
 		this.display.album.innerText = this.meta.album;
@@ -137,8 +145,6 @@ window.customElements.define('media-player', class extends HTMLElement {
 	PlayMediaFile(){
 		if(this.howl.playing()) return;
 		this.howl.play();
-		// Enable wake lock
-		this.noSleep.enable();
 		this.controls.play.style.display = 'none';
 		this.controls.play.disabled = true;
 		this.controls.pause.style.display = 'initial';
@@ -151,8 +157,6 @@ window.customElements.define('media-player', class extends HTMLElement {
 	PauseMediaFile(){
 		if(!this.howl.playing()) return;
 		this.howl.pause();
-		// Disable wake lock
-		this.noSleep.disable();
 		this.controls.play.style.display = 'initial';
 		this.controls.play.disabled = false;
 		this.controls.pause.style.display = 'none';
