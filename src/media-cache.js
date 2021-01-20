@@ -13,6 +13,18 @@ export class MediaCache{
 		});
 	}
 
+	// TODO: expand on this to check other caches besides media
+	async IsCached(url){
+		if(!url) return null;
+		let cache = await caches.open(this.mediaCacheName);
+		let match = await cache.match(url);
+		if(match && match.body){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 	CachePlaylist(playlist){
 
 		this.paths = null;

@@ -16,6 +16,7 @@ import './serviceWorkerRegistration';
 // Load application styles
 import '../styles/main.scss';
 
+// Load web components
 import './components/media-player/media-player';
 import './components/media-listing/media-listing';
 import './components/playlist-listing/playlist-listing';
@@ -38,12 +39,9 @@ document.getElementById('user').value = localStorage['user'];
 document.getElementById('pass').value = localStorage['pass'];
 
 document.querySelector('button.login').addEventListener('click', ()=>{
-	if(!localStorage['server'])
-		localStorage['server'] = document.getElementById('server').value;
-	if(!localStorage['user'])
-		localStorage['user'] = document.getElementById('user').value;
-	if(!localStorage['pass'])
-		localStorage['pass'] = document.getElementById('pass').value;
+	localStorage['server'] = document.getElementById('server').value;
+	localStorage['user'] = document.getElementById('user').value;
+	localStorage['pass'] = document.getElementById('pass').value;
 
 	document.querySelector('playlist-listing').LoadListing();
 });

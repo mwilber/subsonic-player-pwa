@@ -6,21 +6,11 @@ window.customElements.define('media-list-item', class extends HTMLElement {
 		super();
 
 		let shadowRoot = this.attachShadow({mode: 'open'});
-
-		this.mediaCacheName = 'media_v0.9';
 		this.cached = false;
 	}
 
-	// get dataBind() {
-	//   return this.getAttribute('databind');
-	// }
-	// set dataBind(newValue) {
-	//   this.setAttribute('databind', newValue);
-	//   this.render();
-	// }
-
 	static get observedAttributes() {
-		return ['data-index', 'data-title'];
+		return ['data-index', 'data-cached'];
 	}
 
 	attributeChangedCallback(name, oldValue, newValue) {
@@ -28,36 +18,20 @@ window.customElements.define('media-list-item', class extends HTMLElement {
 			case 'data-index':
 				this.index = parseInt(newValue);
 				break;
-			case 'data-title':
-				console.log('data title changed')
-				this.render();
+			case 'data-cached':
+				this.cached = (newValue === "true") ? true : false;
 				break;
 			default:
 				break;
 		}
 	}
 
-	async connectedCallback() {
-		if(await this.IsCached() === true){
-			this.cached = true;
-		}
+	connectedCallback() {
 		this.render();
 	}
 
 	disconnectedCallback(){
 
-	}
-
-	async IsCached(){
-		let {url} = this.dataset;
-		if(!url) return null;
-		let cache = await caches.open(this.mediaCacheName);
-		let match = await cache.match(url);
-		if(match && match.body){
-			return true;
-		}else{
-			return false;
-		}
 	}
 
 	PlayTrack(){

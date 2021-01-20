@@ -83,24 +83,27 @@ window.customElements.define('media-listing', class extends HTMLElement {
 		//TODO: fill this with sorty goodness
 	}
 
-	render(){
+	async render(){
 		let title = this.listing.name;
 		let list = "";
 
-		this.listing.songs.forEach((song, idx)=>{
+		for( let idx=0; idx<this.listing.songs.length; idx++ ){
+			let song = this.listing.songs[idx];
 			let songTitle = song.title + ' [' + song.album + ']';
 			let songUrl = song.src;
+			let songCached = (await this.mediaCache.IsCached(song.src)) ? 'true' : 'false';
 			list += `
 				<li>
 					<media-list-item
 						data-index="${idx}"
 						data-title="${songTitle}"
 						data-url="${songUrl}"
+						data-cached="${songCached}"
 					>
 					</media-list-item>
 				</li>
 			`;
-		});
+		}
 
 		this.shadowRoot.innerHTML = `
 			<style>

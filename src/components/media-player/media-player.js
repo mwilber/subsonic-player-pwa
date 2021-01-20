@@ -129,6 +129,10 @@ window.customElements.define('media-player', class extends HTMLElement {
 			onstop: ()=>{
 				// Disable wake lock
 				this.noSleep.disable();
+			},
+			onend: ()=>{
+				// Disable wake lock
+				this.noSleep.disable();
 			}
 		});
 		this.display.title.innerText = this.meta.title;
