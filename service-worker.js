@@ -6,7 +6,7 @@
  * to build out your own caching strategy and other PWA features.
  */
 
-let CACHE_VERSION = '0.9';
+let CACHE_VERSION = '0.10';
 let CACHE_STATIC_NAME = 'static_v'+CACHE_VERSION;
 let CACHE_DYNAMIC_NAME = 'dynamic_v'+CACHE_VERSION;
 let CACHE_MEDIA_NAME = 'media_v'+CACHE_VERSION;
@@ -124,8 +124,33 @@ self.addEventListener('message', async function (event) {
                     type: 'cache-version',
                     msg: CACHE_VERSION
                 });
+                break;
+            case 'cache-status':
+                CacheDetails().then((data)=>{
+                    event.source.postMessage({
+                        type: 'cache-status',
+                        msg: data
+                    });
+                });
+                break;
             default:
                 break;
         }
     }
 });
+
+async function CacheDetails(){
+    let cache = await caches.open(CACHE_MEDIA_NAME);
+    let mediaKeys = await cache.keys();
+    cache = await caches.open(CACHE_DYNAMIC_NAME);
+    let dynamicKeys = await cache.keys();
+    cache = await caches.open(CACHE_STATIC_NAME);
+    let staticKeys = await cache.keys();
+
+    return {
+        version: CACHE_VERSION,
+        mediaCount: mediaKeys.length,
+        dynamicCount: dynamicKeys.length,
+        staticCount: staticKeys.length
+    };
+}

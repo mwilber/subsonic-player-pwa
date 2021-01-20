@@ -22,9 +22,42 @@ import './components/media-listing/media-listing';
 import './components/playlist-listing/playlist-listing';
 
 navigator.serviceWorker.addEventListener('message', event => {
-	if( event.data.type && event.data.type == 'cache-version')
-		document.getElementById('cache-version').innerText = event.data.msg;
+	if( event.data.type ){
+		switch( event.data.type ){
+			case 'cache-version':
+				document.getElementById('cache-version').innerText = event.data.msg;
+				break;
+			case 'cache-status':
+				let {version, mediaCount, dynamicCount, staticCount} = event.data.msg;
+				document.getElementById('cache-version').innerText = version;
+				let cacheStatus = document.querySelector('.cache-status');
+				let cacheList = `
+					<ul>
+						<li>Media: ${mediaCount} requests</li>
+						<li>Dynamic: ${dynamicCount} requests</li>
+						<li>Static: ${staticCount} requests</li>
+					</ul>
+				`;
+				cacheStatus.innerHTML = cacheList;
+				break;
+			default:
+				break;
+		}
+	}
 });
+
+if ('serviceWorker' in navigator) {
+	navigator.serviceWorker.ready
+	.then(function(registration) {
+		console.log('A service worker is active:', registration.active);
+
+		navigator.serviceWorker.controller.postMessage({
+			action: 'cache-status'
+		});
+	});
+} else {
+	console.log('Service workers are not supported.');
+}
 
 ///////////////////////////////////////////////
 // Auto load test playlist - REMOVE THIS LATER

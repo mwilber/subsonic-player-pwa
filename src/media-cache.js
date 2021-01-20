@@ -5,8 +5,9 @@ export class MediaCache{
 		this.errCt = 0;
 		this.extCt = 0;
 
-		this.mediaCacheName = 'media_v0.9';
+		this.mediaCacheName = 'media_v0.10';
 
+		// TODO: remove this and replace it with some sort of progress indicator
 		navigator.serviceWorker.addEventListener('message', event => {
 			let cacheOut = document.querySelector('.cache-status');
 			cacheOut.innerText = 'Media files cached: ' + event.data.count;
@@ -38,7 +39,11 @@ export class MediaCache{
 	}
 
 	CacheNextPath(){
-		if(!this.paths) return;
+		if(!this.paths){
+			navigator.serviceWorker.controller.postMessage({
+				action: 'cache-status'
+			});
+		};
 		this.CacheMediaUrl(this.paths.shift());
 	}
 
