@@ -20,6 +20,7 @@ window.customElements.define('media-player', class extends HTMLElement {
 			console.log('PlaySongObject', evt);
 			let {song, cb} = evt.detail;
 			if(!song) return;
+			document.gzNavigator.SetSlot('player');
 			this.PlaySongObject(song, cb);
 		});
 
@@ -209,6 +210,7 @@ window.customElements.define('media-player', class extends HTMLElement {
 			</style>
 
 			<!-- Controls -->
+			<button class="nav-back">&lt;&mdash;</button>
 			<div class="meta">
 				<span class="title"></span>
 				<br>
@@ -239,7 +241,8 @@ window.customElements.define('media-player', class extends HTMLElement {
 			previous: this.shadowRoot.querySelector('.btn.previous'),
 			forward: this.shadowRoot.querySelector('.btn.forward'),
 			reverse: this.shadowRoot.querySelector('.btn.reverse'),
-			scrubber: this.shadowRoot.querySelector('.range.scrubber')
+			scrubber: this.shadowRoot.querySelector('.range.scrubber'),
+			exit: this.shadowRoot.querySelector('.nav-back')
 		};
 		this.display = {
 			title: this.shadowRoot.querySelector('.meta .title'),
@@ -285,6 +288,10 @@ window.customElements.define('media-player', class extends HTMLElement {
 		this.controls.reverse.addEventListener('click', () => { 
 			let seek = this.howl.seek() || 0;
 			this.howl.seek( seek - 10 ); 
+		});
+
+		this.controls.exit.addEventListener('click', (evt)=>{
+			document.gzNavigator.SetSlot();
 		});
 		
 	}

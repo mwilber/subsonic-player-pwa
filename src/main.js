@@ -17,6 +17,7 @@ import './serviceWorkerRegistration';
 import '../styles/main.scss';
 
 // Load web components
+import './components/gz-navigator/gz-navigator';
 import './components/media-player/media-player';
 import './components/media-listing/media-listing';
 import './components/playlist-listing/playlist-listing';
