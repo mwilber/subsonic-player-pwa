@@ -51,7 +51,10 @@
 <body>
     <div class="container">
 		<h1><%= htmlWebpackPlugin.options.data.title %></h1>
-		<gz-navigator data-slot="">
+		<gz-navigator data-slot="search">
+			<div slot="search">
+				<media-search></media-search>
+			</div>
 			<div slot="default">
 				<playlist-listing><!-- Playlist Listing --></playlist-listing>
 				<media-listing><!-- Media Listing --></media-listing>

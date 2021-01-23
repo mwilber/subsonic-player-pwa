@@ -47,6 +47,7 @@ window.customElements.define('gz-navigator', class extends HTMLElement {
 			<div class="nav-bar">
 				<button id="options">Options</button>
 				<button id="default">Default</button>
+				<button id="search">Search</button>
 			</div>
 
 			<slot name="${slotName}"></slot>
@@ -58,6 +59,10 @@ window.customElements.define('gz-navigator', class extends HTMLElement {
 
 		this.shadowRoot.getElementById('default').addEventListener('click', ()=>{
 			document.gzNavigator.SetSlot('default');
+		});
+
+		this.shadowRoot.getElementById('search').addEventListener('click', ()=>{
+			document.gzNavigator.SetSlot('search');
 		});
 	}
 });

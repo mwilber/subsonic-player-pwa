@@ -110,4 +110,30 @@ export class ApiSubsonic{
 			}
 		);
 	}
+
+	GetSearch2(query){
+		if(!query) return;
+
+		return fetch(this.GetServerQuery('search2',{query: query, songCount: 2}))
+			.then(response => response.json())
+			.then(
+				(data)=>{
+                //console.log("🚀 ~ file: api-subsonic.js ~ line 63 ~ ApiSubsonic ~ GetAlbum ~ data", data)
+					if( !data['subsonic-response'] || data['subsonic-response'].status !== 'ok' ) return;
+					let searchResultObj = {
+						albums: [],
+						artists: [],
+						songs: []
+					}
+					// Format Songs
+					data['subsonic-response'].searchResult2.song.forEach((song)=>{
+						searchResultObj.songs.push(this.FormatSongObject(song))
+					});
+					// Add Albums
+					searchResultObj.albums = data['subsonic-response'].searchResult2.album.slice();
+					// TODO: Add artists
+					return searchResultObj;
+				}
+			);
+	}
 }
