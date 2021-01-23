@@ -20,7 +20,6 @@ window.customElements.define('media-player', class extends HTMLElement {
 			console.log('PlaySongObject', evt);
 			let {song, cb} = evt.detail;
 			if(!song) return;
-			document.gzNavigator.SetSlot('player');
 			this.PlaySongObject(song, cb);
 		});
 
@@ -204,26 +203,14 @@ window.customElements.define('media-player', class extends HTMLElement {
 
 	render(){
 
-		this.shadowRoot.innerHTML = `
-			<style>
-			  ${cssData}
-			</style>
-
-			<!-- Controls -->
-			<button class="nav-back">&lt;&mdash;</button>
-			<div class="meta">
-				<span class="title"></span>
-				<br>
-				<strong class="album"></strong> <em class="artist"></em>
-			</div>
-			<div class="artwork"></div>
+		let miniInterface = `
 			<div class="controls">
-			<button class="btn previous">Prev</button>
-			<button class="btn reverse">RW</button>
-			<button class="btn play" disabled>Play</button>
-			<button class="btn pause" style="display:none;" disabled>Pause</button>
-			<button class="btn forward">FF</button>
-			<button class="btn next">Next</button>
+				<button class="btn previous">Prev</button>
+				<button class="btn reverse">RW</button>
+				<button class="btn play" disabled>Play</button>
+				<button class="btn pause" style="display:none;" disabled>Pause</button>
+				<button class="btn forward">FF</button>
+				<button class="btn next">Next</button>
 				<!-- Progress -->
 				<div class="display">
 					<div class="timer">0:00</div>
@@ -234,6 +221,22 @@ window.customElements.define('media-player', class extends HTMLElement {
 			</div>
 		`;
 
+		this.shadowRoot.innerHTML = `
+			<style>
+			  ${cssData}
+			</style>
+
+			<!-- Controls -->
+			<button class="minimize">^</button>
+			<div class="meta">
+				<span class="title"></span>
+				<br>
+				<strong class="album"></strong> <em class="artist"></em>
+			</div>
+			<div class="artwork"></div>
+			${miniInterface}
+		`;
+
 		this.controls = {
 			play: this.shadowRoot.querySelector('.btn.play'),
 			pause: this.shadowRoot.querySelector('.btn.pause'),
@@ -242,7 +245,7 @@ window.customElements.define('media-player', class extends HTMLElement {
 			forward: this.shadowRoot.querySelector('.btn.forward'),
 			reverse: this.shadowRoot.querySelector('.btn.reverse'),
 			scrubber: this.shadowRoot.querySelector('.range.scrubber'),
-			exit: this.shadowRoot.querySelector('.nav-back')
+			minimize: this.shadowRoot.querySelector('.minimize')
 		};
 		this.display = {
 			title: this.shadowRoot.querySelector('.meta .title'),
@@ -290,8 +293,10 @@ window.customElements.define('media-player', class extends HTMLElement {
 			this.howl.seek( seek - 10 ); 
 		});
 
-		this.controls.exit.addEventListener('click', (evt)=>{
-			document.gzNavigator.SetSlot();
+		this.controls.minimize.addEventListener('click', (evt)=>{
+			//document.gzNavigator.SetSlot();
+			console.log('minimize', this.dataset.minimized);
+			this.dataset.minimized = ( this.dataset.minimized ) ? '' : 'true';
 		});
 		
 	}

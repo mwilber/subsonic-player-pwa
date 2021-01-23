@@ -42,14 +42,14 @@ window.customElements.define('gz-navigator', class extends HTMLElement {
 
 			</style>
 
-			<button id="player">Player</button>
+			<button id="options">Options</button>
 			<button id="default">Default</button>
 
 			<slot name="${slotName}"></slot>
 		`;
 
-		this.shadowRoot.getElementById('player').addEventListener('click', ()=>{
-			document.gzNavigator.SetSlot('player');
+		this.shadowRoot.getElementById('options').addEventListener('click', ()=>{
+			document.gzNavigator.SetSlot('options');
 		});
 
 		this.shadowRoot.getElementById('default').addEventListener('click', ()=>{

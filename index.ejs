@@ -52,27 +52,24 @@
     <div class="container">
 		<h1><%= htmlWebpackPlugin.options.data.title %></h1>
 		<gz-navigator data-slot="">
-			<div slot="player">
-				<media-player><!-- Media Player --></media-player>
-			</div>
 			<div slot="default">
 				<playlist-listing><!-- Playlist Listing --></playlist-listing>
 				<media-listing><!-- Media Listing --></media-listing>
 			</div>
-		</gz-navigator>
-		
-		<div class="creds">
-			<div id="app-info">
-				<div class="cache">
-					<label for="cache-version">Cache Version: <span id="cache-version"></span></label>
-					<div class="cache-status">...</div>
+			<div slot="options">
+				<div id="app-info">
+					<div class="cache">
+						<label for="cache-version">Cache Version: <span id="cache-version"></span></label>
+						<div class="cache-status">...</div>
+					</div>
 				</div>
+				<button class="login">Login</button>
+				<input id="server" type="text" placeholder="server"/>
+				<input id="user" type="text" placeholder="user"/>
+				<input id="pass" type="text" placeholder="pass"/>
 			</div>
-			<button class="login">Login</button>
-			<input id="server" type="text" placeholder="server"/>
-			<input id="user" type="text" placeholder="user"/>
-			<input id="pass" type="text" placeholder="pass"/>
-		</div>
+		</gz-navigator>
+		<media-player data-minimized="true"><!-- Media Player --></media-player>
 	</div>
 </body>
 </html>

@@ -1,33 +1,51 @@
 :host{
-    display:block;
-    background: rgba(0,0,0,0.25);
-    padding: 25px 50px 50px 50px;
+	display:block;
+	background: rgba(0,0,0,0.25);
+	padding: 0;
+}
+
+.minimize{
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	width: 50px;
 }
 
 .title{
-    font-size: 2em;
-    font-weight: bold;
-    line-height: 1.5em;
+	font-size: 2em;
+	font-weight: bold;
+	line-height: 1.5em;
 }
 
 .artwork{
-    width: 200px;
-    height: 200px;
-    background: #ddd center no-repeat;
-    background-size: cover;
-    margin: 1em auto;
+	width: 200px;
+	height: 200px;
+	background: #ddd center no-repeat;
+	background-size: cover;
+	margin: 1em auto;
 }
 
-.display{
-    margin: 1em 0;
+.controls{
+	margin: 5px 0;
 }
 
 button{
-    line-height: 3em;
-    width: 15%;
+	line-height: 3em;
+	width: 15%;
 }
 
 input.scrubber{
-    display: block;
-    width: 100%;
+	display: block;
+	width: 100%;
+}
+
+/* Minimized Interface */
+
+:host([data-minimized="true"]){
+	height: 100px !important;
+}
+
+:host([data-minimized="true"]) .meta,
+:host([data-minimized="true"]) .artwork {
+	display: none;
 }
