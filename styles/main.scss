@@ -1,5 +1,9 @@
 @import 'normalize';
 
+html{
+	--player-min-height: 100px;
+}
+
 html, body{
 	font-family: sans-serif;
 	background: #7bb951;

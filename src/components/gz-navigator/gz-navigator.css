@@ -1,0 +1,12 @@
+:host{
+    --nav-height: 20px;
+}
+
+::slotted(div){
+    display: flex;
+    height: calc( 100% - var(--player-min-height) - var(--nav-height) )
+}
+
+.nav-bar{
+    height: var(--nav-height);
+}

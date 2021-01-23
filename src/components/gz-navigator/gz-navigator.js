@@ -1,3 +1,5 @@
+import cssData from './gz-navigator.css';
+
 window.customElements.define('gz-navigator', class extends HTMLElement {
 	
 	constructor(){
@@ -39,11 +41,13 @@ window.customElements.define('gz-navigator', class extends HTMLElement {
 		let slotName = this.activeSlot || 'default';
 		this.shadowRoot.innerHTML = `
 			<style>
-
+				${cssData}
 			</style>
 
-			<button id="options">Options</button>
-			<button id="default">Default</button>
+			<div class="nav-bar">
+				<button id="options">Options</button>
+				<button id="default">Default</button>
+			</div>
 
 			<slot name="${slotName}"></slot>
 		`;

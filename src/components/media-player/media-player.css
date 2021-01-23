@@ -51,7 +51,7 @@ input.scrubber{
 /* Minimized Interface */
 
 :host([data-minimized="true"]){
-	height: 100px !important;
+	height: var(--player-min-height) !important;
 }
 
 :host([data-minimized="true"]) .meta,

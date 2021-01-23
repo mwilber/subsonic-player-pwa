@@ -1,5 +1,7 @@
 import { ApiSubsonic } from '../../api-subsonic';
 
+import cssData from './playlist-listing.css';
+
 window.customElements.define('playlist-listing', class extends HTMLElement {
 
 	constructor(node, mediaPlayer){
@@ -24,6 +26,9 @@ window.customElements.define('playlist-listing', class extends HTMLElement {
 		let list = "";
 
 		this.shadowRoot.innerHTML = `
+			<style>
+				${cssData}
+			</style>
 			<ul></ul>
 		`;
 

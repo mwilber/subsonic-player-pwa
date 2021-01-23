@@ -116,9 +116,11 @@ window.customElements.define('media-listing', class extends HTMLElement {
 			</style>
 
 			<h2>${title}</h2>
-			<button class="cache">Cache</button>
-			<button class="play-playlist">PL Play</button>
-			<button class="shuffle">Shuffle</button>
+			<div class="controls">
+				<button class="cache">Cache</button>
+				<button class="play-playlist">PL Play</button>
+				<button class="shuffle">Shuffle</button>
+			</div>
 			<ul>${list}</ul>
 		`;
 		
