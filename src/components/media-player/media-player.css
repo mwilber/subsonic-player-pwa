@@ -18,15 +18,24 @@
 }
 
 .artwork{
-	width: 200px;
-	height: 200px;
-	background: #ddd center no-repeat;
+	width: 50%;
+	height: 100%;
+	background: #3c3c3c center no-repeat;
 	background-size: cover;
-	margin: 1em auto;
+	margin: 0;
+	float: left;
+}
+
+.meta{
+	float:right;
+	width: 50%;
 }
 
 .controls{
-	margin: 5px 0;
+	clear: both;
+	margin: -100px 10% 5px 10%;
+	float: left;
+	width: 80%;in: 5px 0;
 }
 
 button{
@@ -48,4 +57,8 @@ input.scrubber{
 :host([data-minimized="true"]) .meta,
 :host([data-minimized="true"]) .artwork {
 	display: none;
+}
+
+:host([data-minimized="true"]) .controls{
+	margin-top: 5px;
 }

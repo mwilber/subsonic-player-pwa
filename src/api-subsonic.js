@@ -25,7 +25,9 @@ export class ApiSubsonic{
 		//TODO: validate the data object
 		return {
 			album: data.album,
+			albumId: data.albumId,
 			artist: data.artist,
+			artistId: data.artistId,
 			title: data.title,
 			coverArt: [
 				{
@@ -47,6 +49,27 @@ export class ApiSubsonic{
 				(data)=>{
 					if( !data['subsonic-response'] || data['subsonic-response'].status !== 'ok' ) return;
 					return this.FormatSongObject(data['subsonic-response'].song[0]);
+				}
+			);
+	}
+
+	GetAlbum(id){
+		if(!id) return;
+
+		return fetch(this.GetServerQuery('getAlbum',{id: id}))
+			.then(response => response.json())
+			.then(
+				(data)=>{
+                console.log("🚀 ~ file: api-subsonic.js ~ line 63 ~ ApiSubsonic ~ GetAlbum ~ data", data)
+					if( !data['subsonic-response'] || data['subsonic-response'].status !== 'ok' ) return;
+					let playlistObj = {
+						name: data['subsonic-response'].album.name,
+						songs: []
+					}
+					data['subsonic-response'].album.song.forEach((song)=>{
+						playlistObj.songs.push(this.FormatSongObject(song))
+					});
+					return playlistObj;
 				}
 			);
 	}

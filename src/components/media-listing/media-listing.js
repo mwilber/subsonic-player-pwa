@@ -48,9 +48,14 @@ window.customElements.define('media-listing', class extends HTMLElement {
 		let {id, type} = this.dataset;
 		if(!id || !type) return;
 		console.log('<media-listing>', 'LoadListing', id, type);
+		let data;
 		switch(type){
 			case 'playlist':
-				let data = await this.api.GetPlaylist(id);
+				data = await this.api.GetPlaylist(id);
+				this.SetListing(data);
+				break;
+			case 'album':
+				data = await this.api.GetAlbum(id);
 				this.SetListing(data);
 				break;
 			default:

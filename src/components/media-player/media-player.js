@@ -110,6 +110,7 @@ window.customElements.define('media-player', class extends HTMLElement {
 	PlaySongObject(song, cb){
 		this.UnloadMediaFile();
 		this.meta = song;
+        console.log("🚀 ~ file: media-player.js ~ line 113 ~ extends ~ PlaySongObject ~ this.meta", this.meta)
 		this.meta.cb = cb;
 		this.howl = new Howl({
 			src: this.meta.src,
@@ -137,7 +138,9 @@ window.customElements.define('media-player', class extends HTMLElement {
 		});
 		this.display.title.innerText = this.meta.title;
 		this.display.album.innerText = this.meta.album;
+		this.display.album.dataset.id = this.meta.albumId;
 		this.display.artist.innerText = this.meta.artist;
+		this.display.artist.dataset.id = this.meta.artistId;
 		this.artwork.style.backgroundImage = 'url('+this.meta.coverArt[0].src+')';
 
 		this.howl.on('end', this.meta.cb);
@@ -297,6 +300,14 @@ window.customElements.define('media-player', class extends HTMLElement {
 			//document.gzNavigator.SetSlot();
 			console.log('minimize', this.dataset.minimized);
 			this.dataset.minimized = ( this.dataset.minimized ) ? '' : 'true';
+		});
+
+		this.display.album.addEventListener('click', (evt)=>{
+			console.log(evt.target.dataset.id);
+			let listing = document.querySelector('media-listing');
+			listing.dataset.id = '';
+			listing.dataset.type = 'album';
+			listing.dataset.id = evt.target.dataset.id;
 		});
 		
 	}
