@@ -21,6 +21,7 @@ window.customElements.define('media-player', class extends HTMLElement {
 			let {song, cb} = evt.detail;
 			if(!song) return;
 			this.PlaySongObject(song, cb);
+			this.dataset.minimized = '';
 		});
 
 		this.InitMediaSessionHandlers();
@@ -231,12 +232,16 @@ window.customElements.define('media-player', class extends HTMLElement {
 
 			<!-- Controls -->
 			<button class="minimize">^</button>
-			<div class="meta">
-				<span class="title"></span>
-				<br>
-				<strong class="album"></strong> <em class="artist"></em>
+			<div class="display">
+				<div class="artwork"></div>
+				<div class="meta">
+					<span class="title"></span>
+					<br>
+					<strong class="album"></strong>
+					<br>
+					<em class="artist"></em>
+				</div>
 			</div>
-			<div class="artwork"></div>
 			${miniInterface}
 		`;
 
@@ -303,12 +308,12 @@ window.customElements.define('media-player', class extends HTMLElement {
 		});
 
 		this.display.album.addEventListener('click', (evt)=>{
-			console.log(evt.target.dataset.id);
-			let listing = document.querySelector('media-listing');
-			listing.dataset.id = '';
-			listing.dataset.type = 'album';
-			listing.dataset.id = evt.target.dataset.id;
+			document.dispatchEvent(new CustomEvent('PlaylistLoadListing', {
+				detail:{
+					id: evt.target.dataset.id,
+					type: 'album',
+				}
+			}));
 		});
-		
 	}
 });

@@ -69,7 +69,7 @@ window.customElements.define('media-search', class extends HTMLElement {
 				${cssData}
 			</style>
 
-			<input type="text" name="query" placeholder="Search" value="Ten" />
+			<input type="text" name="query" placeholder="Search" value="" />
 			<button class="search">Go</button>
 			<ul></ul>
 		`;

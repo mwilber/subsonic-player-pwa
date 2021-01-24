@@ -65,10 +65,10 @@ if ('serviceWorker' in navigator) {
 // Auto load test playlist - REMOVE THIS LATER
 ///////////////////////////////////////////////
 let mediaListing = document.querySelector('media-listing');
-// mediaListing.dataset.type = 'playlist';
-// mediaListing.dataset.id = '800000013';
-mediaListing.dataset.type = 'album';
-mediaListing.dataset.id = '200000540';
+mediaListing.dataset.type = 'playlist';
+mediaListing.dataset.id = '800000013';
+// mediaListing.dataset.type = 'album';
+// mediaListing.dataset.id = '200001100';
 ///////////////////////////////////////////////
 
 document.getElementById('server').value = localStorage['server'];
