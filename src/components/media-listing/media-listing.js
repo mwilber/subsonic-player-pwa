@@ -26,6 +26,12 @@ window.customElements.define('media-listing', class extends HTMLElement {
 		document.addEventListener('PlaylistPlayPrevious',(evt)=>{
 			this.PlayPreviousIndex();
 		});
+		document.addEventListener('PlaylistLoadListing',(evt)=>{
+			this.dataset.id = '';
+			this.dataset.type = evt.detail.type;
+			this.dataset.id = evt.detail.id;
+			document.gzNavigator.SetSlot();
+		});
 
 	}
 
@@ -64,7 +70,7 @@ window.customElements.define('media-listing', class extends HTMLElement {
 	}
 
 	SetListing(listing){
-		if(!listing.songs || !listing.songs.length) return;
+		if(!listing || !listing.songs || !listing.songs.length) return;
 		this.listing = {
 			name: (listing.name || ""),
 			songs: listing.songs.slice()

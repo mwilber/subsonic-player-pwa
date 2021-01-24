@@ -61,7 +61,11 @@ export class ApiSubsonic{
 			.then(
 				(data)=>{
                 console.log("🚀 ~ file: api-subsonic.js ~ line 63 ~ ApiSubsonic ~ GetAlbum ~ data", data)
-					if( !data['subsonic-response'] || data['subsonic-response'].status !== 'ok' ) return;
+					if( !data['subsonic-response'] || 
+						data['subsonic-response'].status !== 'ok' || 
+						!data['subsonic-response'].album || 
+						!data['subsonic-response'].album.song
+						) return;
 					let playlistObj = {
 						name: data['subsonic-response'].album.name,
 						songs: []
@@ -82,7 +86,11 @@ export class ApiSubsonic{
 			.then(response => response.json())
 			.then(
 				(data)=>{
-					if( !data['subsonic-response'] || data['subsonic-response'].status !== 'ok' ) return;
+					if( !data['subsonic-response'] || 
+						data['subsonic-response'].status !== 'ok' || 
+						!data['subsonic-response'].playlist || 
+						!data['subsonic-response'].playlist.entry
+						) return;
 					let playlistObj = {
 						name: data['subsonic-response'].playlist.name,
 						songs: []
