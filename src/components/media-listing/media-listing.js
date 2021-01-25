@@ -33,6 +33,11 @@ window.customElements.define('media-listing', class extends HTMLElement {
 			document.gzNavigator.SetSlot();
 		});
 
+		// Test album query
+		this.api.GetAlbumList().then((albums)=>{
+            console.log("🚀 ~ file: media-listing.js ~ line 38 ~ extends ~ this.api.GetAlbumList ~ albums", albums)
+			
+		});
 	}
 
 	static get observedAttributes() {

@@ -119,6 +119,25 @@ export class ApiSubsonic{
 		);
 	}
 
+	GetAlbumList(size, offset){
+		return fetch(this.GetServerQuery('getAlbumList',{type: 'alphabeticalByName', size: (size || 10), offset: (offset || 0)}))
+		.then(response => response.json())
+		.then(
+			(data)=>{
+				if( !data['subsonic-response'] || data['subsonic-response'].status !== 'ok' ) return;
+
+				let albumsObj = [];
+				if(data['subsonic-response'].albumList && 
+					data['subsonic-response'].albumList.album && 
+					data['subsonic-response'].albumList.album.slice
+					)
+					albumsObj = data['subsonic-response'].albumList.album.slice();
+
+				return albumsObj;
+			}
+		);
+	}
+
 	GetSearch2(query){
 		if(!query) return;
 
