@@ -1,7 +1,24 @@
 :host{
 	display:block;
-	background: rgba(0,0,0,0.25);
+	position: absolute;
+	top: auto;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: var(--media-player-background-color);
+	background-size: cover;
+	color: var(--media-player-text-color);
 	padding: 0;
+	overflow: hidden;
+	z-index: 10000;
+}
+
+.shade{
+	backdrop-filter: blur(25px);
+    background-color: rgba(0,0,0,0.5);
+	width: 100%;
+    height: 100%;
 }
 
 .minimize{
@@ -10,16 +27,28 @@
 	left: 5px;
 	width: 50px;
 	z-index: 1000;
+	background: rgba(0,0,0,0.5);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+	line-height: 2em;
+}
+
+.minimize svg{
+	height: 2em;
+	margin-top: 1em;
+	transform: rotate(180deg);
 }
 
 .display{
 	display: flex;
-	height: 100%;
+	height: calc( 100% - var(--player-min-height) );
 }
 
 .meta{
-	flex: 0 0 calc(50% - 4%);
-    padding: 3em 2% 0 2%;
+	flex: 0 0 calc(50% - 2%);
+    padding: 3em 2% 0 0;
+	text-align: left;
 }
 
 .title{
@@ -35,6 +64,7 @@
 	font-size: 1.5em;
 	line-height: 1em;
 	margin-bottom: 0.5em;
+	opacity: 0.85;
 }
 
 .artist{
@@ -42,6 +72,7 @@
 	font-size: 1.5em;
 	line-height: 1em;
 	margin-bottom: 0.5em;
+	opacity: 0.85;
 }
 
 .artwork{
@@ -64,6 +95,8 @@
 	width: 80%;
 	padding: 5px 10%;
     background: rgba(0,0,0,0.5);
+	border-top: solid 1px rgba(255,255,255,0.25);
+    box-shadow: 0 -3px 10px #000;
 }
 
 /* .controls:after{
@@ -91,6 +124,21 @@
 	float:right;
 }
 
+.controls button{
+	background: transparent;
+    border: solid 2px rgba(255,255,255,0.75);
+    border-radius: 2em;
+    width: 6em;
+    color: #fff;
+	line-height: 2.5em;
+}
+
+.controls button svg{
+	height: 1.25em;
+    color: #fff;
+    margin-top: 0.75em;
+}
+
 button{
 	line-height: 3em;
 	width: 15%;
@@ -110,12 +158,22 @@ input.scrubber{
 		background-size: cover;
 		background-position: top center;
 	}
+
+	.controls button.reverse,
+	.controls button.forward{
+		display: none;
+	}
 }
 
 /* Minimized Interface */
 
 :host([data-minimized="true"]){
 	height: var(--player-min-height) !important;
+}
+
+:host([data-minimized="true"]) .minimize svg{
+	transform: rotate(0deg);
+	margin-top: 0.25em;
 }
 
 :host([data-minimized="true"]) .meta,

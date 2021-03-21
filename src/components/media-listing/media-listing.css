@@ -35,6 +35,12 @@ h2, .controls, ul{
     font-size: 1em;
     text-align: center;
     font-weight: bold;
+
+}
+
+.controls svg{
+	height: 1.5em;
+    margin-top: 0.75em;
 }
 
 ul{

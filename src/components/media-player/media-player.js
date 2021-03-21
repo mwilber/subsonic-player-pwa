@@ -158,6 +158,7 @@ window.customElements.define('media-player', class extends HTMLElement {
 		this.display.album.dataset.id = this.meta.albumId;
 		this.display.artist.innerText = this.meta.artist;
 		this.display.artist.dataset.id = this.meta.artistId;
+		this.style.backgroundImage = 'url('+this.meta.coverArt[0].src+')';
 		this.artwork.style.backgroundImage = 'url('+this.meta.coverArt[0].src+')';
 
 		this.howl.on('end', this.meta.cb);
@@ -219,12 +220,24 @@ window.customElements.define('media-player', class extends HTMLElement {
 
 		let miniInterface = `
 			<div class="controls">
-				<button class="btn previous">Prev</button>
-				<button class="btn reverse">RW</button>
-				<button class="btn play" disabled>Play</button>
-				<button class="btn pause" style="display:none;" disabled>Pause</button>
-				<button class="btn forward">FF</button>
-				<button class="btn next">Next</button>
+				<button class="btn previous">
+					<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="fast-backward" class="svg-inline--fa fa-fast-backward fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M0 436V76c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v151.9L235.5 71.4C256.1 54.3 288 68.6 288 96v131.9L459.5 71.4C480.1 54.3 512 68.6 512 96v320c0 27.4-31.9 41.7-52.5 24.6L288 285.3V416c0 27.4-31.9 41.7-52.5 24.6L64 285.3V436c0 6.6-5.4 12-12 12H12c-6.6 0-12-5.4-12-12z"></path></svg>
+				</button>
+				<button class="btn reverse">
+					<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="backward" class="svg-inline--fa fa-backward fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M11.5 280.6l192 160c20.6 17.2 52.5 2.8 52.5-24.6V96c0-27.4-31.9-41.8-52.5-24.6l-192 160c-15.3 12.8-15.3 36.4 0 49.2zm256 0l192 160c20.6 17.2 52.5 2.8 52.5-24.6V96c0-27.4-31.9-41.8-52.5-24.6l-192 160c-15.3 12.8-15.3 36.4 0 49.2z"></path></svg>
+				</button>
+				<button class="btn play" disabled>
+					<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="play" class="svg-inline--fa fa-play fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z"></path></svg>
+				</button>
+				<button class="btn pause" style="display:none;" disabled>
+					<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="pause" class="svg-inline--fa fa-pause fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M144 479H48c-26.5 0-48-21.5-48-48V79c0-26.5 21.5-48 48-48h96c26.5 0 48 21.5 48 48v352c0 26.5-21.5 48-48 48zm304-48V79c0-26.5-21.5-48-48-48h-96c-26.5 0-48 21.5-48 48v352c0 26.5 21.5 48 48 48h96c26.5 0 48-21.5 48-48z"></path></svg>
+				</button>
+				<button class="btn forward">
+					<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="forward" class="svg-inline--fa fa-forward fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M500.5 231.4l-192-160C287.9 54.3 256 68.6 256 96v320c0 27.4 31.9 41.8 52.5 24.6l192-160c15.3-12.8 15.3-36.4 0-49.2zm-256 0l-192-160C31.9 54.3 0 68.6 0 96v320c0 27.4 31.9 41.8 52.5 24.6l192-160c15.3-12.8 15.3-36.4 0-49.2z"></path></svg>
+				</button>
+				<button class="btn next">
+					<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="fast-forward" class="svg-inline--fa fa-fast-forward fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M512 76v360c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12V284.1L276.5 440.6c-20.6 17.2-52.5 2.8-52.5-24.6V284.1L52.5 440.6C31.9 457.8 0 443.4 0 416V96c0-27.4 31.9-41.7 52.5-24.6L224 226.8V96c0-27.4 31.9-41.7 52.5-24.6L448 226.8V76c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12z"></path></svg>
+				</button>
 				<!-- Progress -->
 				<div class="display">
 					<div class="timer">0:00</div>
@@ -239,9 +252,11 @@ window.customElements.define('media-player', class extends HTMLElement {
 			<style>
 			  ${cssData}
 			</style>
-
+			<div class="shade">
 			<!-- Controls -->
-			<button class="minimize">^</button>
+			<button class="minimize">
+				<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-up" class="svg-inline--fa fa-chevron-up fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M240.971 130.524l194.343 194.343c9.373 9.373 9.373 24.569 0 33.941l-22.667 22.667c-9.357 9.357-24.522 9.375-33.901.04L224 227.495 69.255 381.516c-9.379 9.335-24.544 9.317-33.901-.04l-22.667-22.667c-9.373-9.373-9.373-24.569 0-33.941L207.03 130.525c9.372-9.373 24.568-9.373 33.941-.001z"></path></svg>
+			</button>
 			<div class="display">
 				<div class="artwork"></div>
 				<div class="meta">
@@ -251,6 +266,7 @@ window.customElements.define('media-player', class extends HTMLElement {
 					<br>
 					<em class="artist"></em>
 				</div>
+			</div>
 			</div>
 			${miniInterface}
 		`;

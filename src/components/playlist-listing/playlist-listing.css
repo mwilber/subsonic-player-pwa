@@ -1,6 +1,8 @@
 :host{
-    display: block;
+    display: flex;
+    flex-direction: column;
     flex: 1;
+    height: 100%;
 }
 
 ul{
@@ -9,6 +11,7 @@ ul{
     margin: 0;
     padding: 0;
     overflow: scroll;
+    height: 100%;
 }
 
 ul li button{
