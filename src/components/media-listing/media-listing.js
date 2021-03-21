@@ -51,6 +51,8 @@ window.customElements.define('media-listing', class extends HTMLElement {
 	}
 
 	async LoadListing(){
+		this.ClearListing();
+		this.render();
 		let {id, type} = this.dataset;
 		if(!id || !type) return;
 		console.log('<media-listing>', 'LoadListing', id, type);
@@ -68,6 +70,13 @@ window.customElements.define('media-listing', class extends HTMLElement {
 				break;
 		}
 		localStorage.setItem('mediaListing', JSON.stringify({id: id, type: type}))
+	}
+
+	ClearListing(){
+		this.listing = {
+			name: '...',
+			songs: []
+		};
 	}
 
 	SetListing(listing){
@@ -96,6 +105,9 @@ window.customElements.define('media-listing', class extends HTMLElement {
 	}
 
 	async render(){
+		// Display this media listing
+		this.classList.add('active');
+
 		let title = this.listing.name;
 		let list = "";
 
@@ -148,9 +160,6 @@ window.customElements.define('media-listing', class extends HTMLElement {
 			this.ShuffleListing();
 			this.render();
 		});
-
-		// Display this media listing
-		this.classList.add('active');
 	}
 
 	PlayIndex(index){

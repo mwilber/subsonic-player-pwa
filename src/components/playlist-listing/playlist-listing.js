@@ -47,6 +47,8 @@ window.customElements.define('playlist-listing', class extends HTMLElement {
 			button.addEventListener('click', (evt)=>{
 				let mediaListing = document.querySelector('media-listing');
 				if(!mediaListing) return;
+				mediaListing.dataset.type = '';
+				mediaListing.dataset.id = '';
 				mediaListing.dataset.type = 'playlist';
 				mediaListing.dataset.id = id;
 			});
