@@ -1,8 +1,18 @@
 :host{
-    display: flex;
+    display: none;
     flex-direction: column;
     flex: 1;
     overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: var(--app-background-color);
+    width: 100%;
+    height: calc( 100% - var(--player-min-height) - var(--nav-height) );
+}
+
+:host(.active){
+    display: flex;
 }
 
 h2, .controls, ul{
@@ -15,6 +25,16 @@ h2, .controls, ul{
 
 .controls button{
     flex: 1;
+    width: 100%;
+    padding: 1em 2em;
+    border: none;
+    background: rgba(0, 0, 0, 0.05);
+    border-left: solid 1px #fff;
+    border-right: solid 1px rgba(0, 0, 0, 0.15);
+    border-bottom: solid 1px rgba(0, 0, 0, 0.15);
+    font-size: 1em;
+    text-align: center;
+    font-weight: bold;
 }
 
 ul{
@@ -28,6 +48,6 @@ ul{
 
 li{
     list-style: none;
-    margin: 5px 0;
-    padding: 5px 10%;
+    margin: 0;
+    padding: 0;
 }

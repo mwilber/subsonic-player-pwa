@@ -123,6 +123,7 @@ window.customElements.define('media-listing', class extends HTMLElement {
 
 			<h2>${title}</h2>
 			<div class="controls">
+				<button class="back">&lt;</button>
 				<button class="cache">Cache</button>
 				<button class="play-playlist">PL Play</button>
 				<button class="shuffle">Shuffle</button>
@@ -134,6 +135,10 @@ window.customElements.define('media-listing', class extends HTMLElement {
 			this.PlayIndex(0);
 		});
 
+		this.shadowRoot.querySelector('button.back').addEventListener('click', (evt)=>{
+			this.classList.remove('active');
+		});
+
 		this.shadowRoot.querySelector('button.cache').addEventListener('click', (evt)=>{
 			this.mediaCache.CachePlaylist(this.listing);
 		});
@@ -142,6 +147,9 @@ window.customElements.define('media-listing', class extends HTMLElement {
 			this.ShuffleListing();
 			this.render();
 		});
+
+		// Display this media listing
+		this.classList.add('active');
 	}
 
 	PlayIndex(index){

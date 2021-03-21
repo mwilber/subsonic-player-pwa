@@ -29,6 +29,7 @@ window.customElements.define('playlist-listing', class extends HTMLElement {
 			<style>
 				${cssData}
 			</style>
+			<h2>Playlists</h2>
 			<ul></ul>
 		`;
 
@@ -38,7 +39,7 @@ window.customElements.define('playlist-listing', class extends HTMLElement {
 			let {id, name, songCount} = playlist;
 			if(songCount == 0) return;
 
-			//let liElem = document.createElement('li');
+			let liElem = document.createElement('li');
 			let button = document.createElement('button');
 
 			button.innerText = name;
@@ -49,10 +50,8 @@ window.customElements.define('playlist-listing', class extends HTMLElement {
 				mediaListing.dataset.type = 'playlist';
 				mediaListing.dataset.id = id;
 			});
-			//liElem.appendChild(button);
-
-			listElem.appendChild(button);
-
+			liElem.appendChild(button);
+			listElem.appendChild(liElem);
 		});
 	}
 

@@ -46,7 +46,7 @@ window.customElements.define('gz-navigator', class extends HTMLElement {
 
 			<div class="nav-bar">
 				<button id="options">Options</button>
-				<button id="default">Default</button>
+				<button id="default">Playlists</button>
 				<button id="search">Search</button>
 			</div>
 

@@ -3,13 +3,13 @@
 }
 
 ::slotted(div){
-    display: flex;
+    /* display: flex; */
     height: calc( 100% - var(--player-min-height) - var(--nav-height) )
 }
 
 @media only screen and (max-width: 480px) {
     ::slotted(div){
-        flex-direction: column;
+        /* flex-direction: column; */
         height: calc( 100% - var(--player-min-height) - var(--nav-height) )
     }
 }

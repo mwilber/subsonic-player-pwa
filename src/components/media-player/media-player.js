@@ -121,20 +121,36 @@ window.customElements.define('media-player', class extends HTMLElement {
 				this.noSleep.enable();
 				// Display the duration.
 				this.display.duration.innerHTML = this.formatTime(Math.round(this.howl.duration()));
+				// Update the media session api
+				if ('mediaSession' in navigator) {
+					navigator.mediaSession.playbackState = "playing";
+				}
 				// Start upating the progress of the track.
 				requestAnimationFrame(this.Step.bind(this));
 			},
 			onpause: ()=>{
 				// Disable wake lock
 				this.noSleep.disable();
+				// Update the media session api
+				if ('mediaSession' in navigator) {
+					navigator.mediaSession.playbackState = "paused";
+				}
 			},
 			onstop: ()=>{
 				// Disable wake lock
 				this.noSleep.disable();
+				// Update the media session api
+				if ('mediaSession' in navigator) {
+					navigator.mediaSession.playbackState = "none";
+				}
 			},
 			onend: ()=>{
 				// Disable wake lock
 				this.noSleep.disable();
+				// Update the media session api
+				if ('mediaSession' in navigator) {
+					navigator.mediaSession.playbackState = "none";
+				}
 			}
 		});
 		this.display.title.innerText = this.meta.title;
@@ -157,9 +173,6 @@ window.customElements.define('media-player', class extends HTMLElement {
 		this.controls.play.disabled = true;
 		this.controls.pause.style.display = 'initial';
 		this.controls.pause.disabled = false;
-		if ('mediaSession' in navigator) {
-			navigator.mediaSession.playbackState = "playing";
-		}
 	}
 
 	PauseMediaFile(){
@@ -169,9 +182,6 @@ window.customElements.define('media-player', class extends HTMLElement {
 		this.controls.play.disabled = false;
 		this.controls.pause.style.display = 'none';
 		this.controls.pause.disabled = true;
-		if ('mediaSession' in navigator) {
-			navigator.mediaSession.playbackState = "paused";
-		}
 	}
 
 	NextMediaFile(){
