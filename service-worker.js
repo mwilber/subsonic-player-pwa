@@ -6,10 +6,11 @@
  * to build out your own caching strategy and other PWA features.
  */
 
-let CACHE_VERSION = '0.10';
+let CACHE_VERSION = '0.11';
+let MEDIA_CACHE_VERSION = '0.10';
 let CACHE_STATIC_NAME = 'static_v'+CACHE_VERSION;
 let CACHE_DYNAMIC_NAME = 'dynamic_v'+CACHE_VERSION;
-let CACHE_MEDIA_NAME = 'media_v'+CACHE_VERSION;
+let CACHE_MEDIA_NAME = 'media_v'+MEDIA_CACHE_VERSION;
 let cacheFirst = ['getCoverArt.view', 'download.view'];
 
 self.addEventListener('install', function(event){
