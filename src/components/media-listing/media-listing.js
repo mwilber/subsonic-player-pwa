@@ -67,6 +67,7 @@ window.customElements.define('media-listing', class extends HTMLElement {
 			default:
 				break;
 		}
+		localStorage.setItem('mediaListing', JSON.stringify({id: id, type: type}))
 	}
 
 	SetListing(listing){

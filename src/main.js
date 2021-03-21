@@ -61,15 +61,25 @@ if ('serviceWorker' in navigator) {
 	console.log('Service workers are not supported.');
 }
 
+// Load media listing from last state
+let mediaListing = document.querySelector('media-listing');
+let mediaListingAttr = localStorage.getItem('mediaListing');
+if(mediaListingAttr){
+	console.log('setting attriubutes');
+	mediaListingAttr = JSON.parse(mediaListingAttr);
+	mediaListing.dataset.type = mediaListingAttr.type;
+	mediaListing.dataset.id = mediaListingAttr.id;
+}
 ///////////////////////////////////////////////
 // Auto load test playlist - REMOVE THIS LATER
 ///////////////////////////////////////////////
-let mediaListing = document.querySelector('media-listing');
-mediaListing.dataset.type = 'playlist';
-mediaListing.dataset.id = '800000013';
+// mediaListing.dataset.type = 'playlist';
+// mediaListing.dataset.id = '800000013';
 // mediaListing.dataset.type = 'album';
 // mediaListing.dataset.id = '200001100';
 ///////////////////////////////////////////////
+
+
 
 document.getElementById('server').value = localStorage['server'];
 document.getElementById('user').value = localStorage['user'];
