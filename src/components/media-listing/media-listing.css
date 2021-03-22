@@ -8,7 +8,7 @@
     left: 0;
     background: var(--app-background-color);
     width: 100%;
-    height: calc( 100% - var(--player-min-height) - var(--nav-height) );
+    height: calc( 100% - var(--player-min-height) );
 }
 
 :host(.active){
@@ -26,7 +26,7 @@ h2, .controls, ul{
 .controls button{
     flex: 1;
     width: 100%;
-    padding: 1em 2em;
+    padding: 0.5em 2em;
     border: none;
     background: rgba(0, 0, 0, 0.05);
     border-left: solid 1px #fff;
@@ -35,12 +35,13 @@ h2, .controls, ul{
     font-size: 1em;
     text-align: center;
     font-weight: bold;
+    color: var(--app-text-color);
 
 }
 
 .controls svg{
 	height: 1.5em;
-    margin-top: 0.75em;
+    margin-top: 0.5em;
 }
 
 ul{
