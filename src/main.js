@@ -17,6 +17,7 @@ import './serviceWorkerRegistration';
 import '../styles/main.scss';
 
 // Load web components
+import './components/subsonic-login/subsonic-login';
 import './components/gz-navigator/gz-navigator';
 import './components/media-search/media-search';
 import './components/media-player/media-player';
@@ -81,14 +82,14 @@ if(mediaListingAttr){
 
 
 
-document.getElementById('server').value = localStorage['server'];
-document.getElementById('user').value = localStorage['user'];
-document.getElementById('pass').value = localStorage['pass'];
+if(localStorage['server']) document.getElementById('server').value = localStorage['server'];
+if(localStorage['user']) document.getElementById('user').value = localStorage['user'];
+if(localStorage['pass']) document.getElementById('pass').value = localStorage['pass'];
 
-document.querySelector('button.login').addEventListener('click', ()=>{
-	localStorage['server'] = document.getElementById('server').value;
-	localStorage['user'] = document.getElementById('user').value;
-	localStorage['pass'] = document.getElementById('pass').value;
+// document.querySelector('button.login').addEventListener('click', ()=>{
+// 	localStorage['server'] = document.getElementById('server').value;
+// 	localStorage['user'] = document.getElementById('user').value;
+// 	localStorage['pass'] = document.getElementById('pass').value;
 
-	document.querySelector('playlist-listing').LoadListing();
-});
+// 	document.querySelector('playlist-listing').LoadListing();
+// });

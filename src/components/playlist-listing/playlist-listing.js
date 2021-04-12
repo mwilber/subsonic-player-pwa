@@ -46,6 +46,7 @@ window.customElements.define('playlist-listing', class extends HTMLElement {
 			button.dataset.id = id;
 			button.addEventListener('click', (evt)=>{
 				let mediaListing = document.querySelector('media-listing');
+                console.log("🚀 ~ file: playlist-listing.js ~ line 49 ~ extends ~ button.addEventListener ~ mediaListing", mediaListing)
 				if(!mediaListing) return;
 				mediaListing.dataset.type = '';
 				mediaListing.dataset.id = '';
