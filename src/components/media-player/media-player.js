@@ -77,7 +77,7 @@ window.customElements.define('media-player', class extends HTMLElement {
 		//progress.style.width = (((seek / sound.duration()) * 100) || 0) + '%';
 
 		// Update the scrubber position
-		if(document.activeElement != this.controls.scrubber){
+		if (document.activeElement != this.controls.scrubber){
 			this.controls.scrubber.value = Math.floor((seek/duration)*100);
 		}
 
