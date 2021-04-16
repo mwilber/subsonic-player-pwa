@@ -117,6 +117,8 @@ window.customElements.define('media-player', class extends HTMLElement {
 			src: this.meta.src,
 			html5: true,
 			onplay: ()=>{
+				// Set the media volume to match the UI
+				this.howl.volume( this.controls.volume.value / 100 );
 				// Enable wake lock
 				this.noSleep.enable();
 				// Display the duration.
@@ -217,6 +219,12 @@ window.customElements.define('media-player', class extends HTMLElement {
 	}
 
 	render(){
+		let startVol = 100;
+		if( localStorage ){
+			let storedVol = localStorage.getItem('mediaVolume');
+			if(storedVol !== null) startVol = parseFloat(storedVol) * 100;
+			console.log('Stored Volume Value', startVol);
+		}
 
 		let miniInterface = `
 			<div class="controls">
@@ -238,6 +246,7 @@ window.customElements.define('media-player', class extends HTMLElement {
 				<button class="btn next">
 					<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="fast-forward" class="svg-inline--fa fa-fast-forward fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M512 76v360c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12V284.1L276.5 440.6c-20.6 17.2-52.5 2.8-52.5-24.6V284.1L52.5 440.6C31.9 457.8 0 443.4 0 416V96c0-27.4 31.9-41.7 52.5-24.6L224 226.8V96c0-27.4 31.9-41.7 52.5-24.6L448 226.8V76c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12z"></path></svg>
 				</button>
+				<input class="range volume" type="range" min="0" max="100" value="${startVol}">
 				<!-- Progress -->
 				<div class="display">
 					<div class="timer">0:00</div>
@@ -279,6 +288,7 @@ window.customElements.define('media-player', class extends HTMLElement {
 			forward: this.shadowRoot.querySelector('.btn.forward'),
 			reverse: this.shadowRoot.querySelector('.btn.reverse'),
 			scrubber: this.shadowRoot.querySelector('.range.scrubber'),
+			volume: this.shadowRoot.querySelector('.range.volume'),
 			minimize: this.shadowRoot.querySelector('.minimize')
 		};
 		this.display = {
@@ -314,17 +324,24 @@ window.customElements.define('media-player', class extends HTMLElement {
 		this.controls.scrubber.addEventListener('change', (evt)=>{
 			console.log('scrubber changed', this.controls.scrubber.value);
 			let duration = this.howl.duration();
-			this.howl.seek( duration * (this.controls.scrubber.value / 100) );
+			if(this.howl) this.howl.seek( duration * (this.controls.scrubber.value / 100) );
+		});
+
+		this.controls.volume.addEventListener('change', (evt)=>{
+			let volVal = this.controls.volume.value / 100;
+			console.log('setting volume to', volVal);
+			if(this.howl) this.howl.volume( volVal );
+			if( localStorage ) localStorage.setItem('mediaVolume', volVal.toString());
 		});
 
 		this.controls.forward.addEventListener('click', () => { 
 			let seek = this.howl.seek() || 0;
-			this.howl.seek( seek + 10 ); 
+			if(this.howl) this.howl.seek( seek + 10 ); 
 		});
 
 		this.controls.reverse.addEventListener('click', () => { 
 			let seek = this.howl.seek() || 0;
-			this.howl.seek( seek - 10 ); 
+			if(this.howl) this.howl.seek( seek - 10 ); 
 		});
 
 		this.controls.minimize.addEventListener('click', (evt)=>{
