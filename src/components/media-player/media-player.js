@@ -316,21 +316,22 @@ window.customElements.define('media-player', class extends HTMLElement {
 		this.controls.scrubber.addEventListener('change', (evt)=>{
 			console.log('scrubber changed', this.controls.scrubber.value);
 			let duration = this.howl.duration();
-			this.howl.seek( duration * (this.controls.scrubber.value / 100) );
+			if(this.howl) this.howl.seek( duration * (this.controls.scrubber.value / 100) );
 		});
 
 		this.controls.volume.addEventListener('change', (evt)=>{
-			this.howl.volume( this.howl.comtrols.volume.value / 100 );
+			console.log('setting volume to',this.controls.volume.value);
+			if(this.howl) this.howl.volume( this.controls.volume.value / 100 );
 		});
 
 		this.controls.forward.addEventListener('click', () => { 
 			let seek = this.howl.seek() || 0;
-			this.howl.seek( seek + 10 ); 
+			if(this.howl) this.howl.seek( seek + 10 ); 
 		});
 
 		this.controls.reverse.addEventListener('click', () => { 
 			let seek = this.howl.seek() || 0;
-			this.howl.seek( seek - 10 ); 
+			if(this.howl) this.howl.seek( seek - 10 ); 
 		});
 
 		this.controls.minimize.addEventListener('click', (evt)=>{
