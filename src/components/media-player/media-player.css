@@ -145,6 +145,10 @@
 	position: relative;
 }
 
+.controls .volume-group .volume-toggle{
+	width: 3.5em;
+}
+
 .controls .volume-group.closed .volume-control,
 .controls .volume-group.closed .volume-shield {
 	display:none;
@@ -156,18 +160,24 @@
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background: rgba(100, 100, 255, 0.5);
+	background: rgba(100, 100, 150, 0.25);
 	z-index: 1000;
 }
 
 .controls .volume-control{
 	position: fixed;
     z-index: 10001;
-    bottom: 0;
+    bottom: -25px;
 	right: 0;
     background: rgba(0,0,0,0.95);
-    border: solid 1px rgba(255,255,255,0.5);
+	border: solid 1px rgba(255,255,255,0.5);
     padding: 10px;
+    transform: rotate(-90deg) translate(50%, 0);
+}
+
+.controls .volume-control .mute-toggle{
+	transform: rotate(90deg);
+	width: 3.5em;
 }
 
 button{
