@@ -246,7 +246,14 @@ window.customElements.define('media-player', class extends HTMLElement {
 				<button class="btn next">
 					<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="fast-forward" class="svg-inline--fa fa-fast-forward fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M512 76v360c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12V284.1L276.5 440.6c-20.6 17.2-52.5 2.8-52.5-24.6V284.1L52.5 440.6C31.9 457.8 0 443.4 0 416V96c0-27.4 31.9-41.7 52.5-24.6L224 226.8V96c0-27.4 31.9-41.7 52.5-24.6L448 226.8V76c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12z"></path></svg>
 				</button>
-				<input class="range volume" type="range" min="0" max="100" value="${startVol}">
+				<div class="volume-group">
+					<div class="volume-shield"></div>
+					<button class="btn volume-toggle">Volume</button>
+					<div class="volume-control">
+						<button class="btn mute-toggle">Mute</button>
+						<input class="range volume" type="range" min="0" max="100" value="${startVol}">
+					</div>
+				</div>
 				<!-- Progress -->
 				<div class="display">
 					<div class="timer">0:00</div>
@@ -288,6 +295,8 @@ window.customElements.define('media-player', class extends HTMLElement {
 			forward: this.shadowRoot.querySelector('.btn.forward'),
 			reverse: this.shadowRoot.querySelector('.btn.reverse'),
 			scrubber: this.shadowRoot.querySelector('.range.scrubber'),
+			volumeToggle: this.shadowRoot.querySelector('.btn.volume-toggle'),
+			volumeShield: this.shadowRoot.querySelector('.volume-shield'),
 			volume: this.shadowRoot.querySelector('.range.volume'),
 			minimize: this.shadowRoot.querySelector('.minimize')
 		};
@@ -342,6 +351,24 @@ window.customElements.define('media-player', class extends HTMLElement {
 		this.controls.reverse.addEventListener('click', () => { 
 			let seek = this.howl.seek() || 0;
 			if(this.howl) this.howl.seek( seek - 10 ); 
+		});
+
+		this.controls.volumeToggle.addEventListener('click', () => { 
+			let volGroup = this.shadowRoot.querySelector('.volume-group');
+			if(!volGroup) return;
+			volGroup.classList.toggle('closed');
+			if(!volGroup.classList.contains('closed')){
+				let volControl = this.shadowRoot.querySelector('.volume-control');
+				let togglePos = this.controls.volumeToggle.getBoundingClientRect();
+                console.log("🚀 ~ file: media-player.js ~ line 363 ~ extends ~ this.controls.volumeToggle.addEventListener ~ togglePos", togglePos)
+				volControl.style.bottom = (window.innerHeight - togglePos.bottom) + 'px';
+				volControl.style.right = (window.innerWidth - togglePos.right) + 'px';
+			}
+		});
+
+		this.controls.volumeShield.addEventListener('click', () => { 
+			let volGroup = this.shadowRoot.querySelector('.volume-group');
+			if(volGroup) volGroup.classList.add('closed');
 		});
 
 		this.controls.minimize.addEventListener('click', (evt)=>{
