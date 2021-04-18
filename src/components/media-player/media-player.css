@@ -15,6 +15,13 @@
 	z-index: 10000;
 }
 
+*:focus {
+	outline: none;
+	outline-style: none;
+	box-shadow: none;
+	border-color: transparent;
+}
+
 .shade{
 	/* backdrop-filter: blur(25px); */
     background-color: rgba(0,0,0,0.65);
@@ -125,7 +132,8 @@
 	float:right;
 }
 
-.controls button{
+.controls button,
+.volume-group button{
 	background: transparent;
     border: solid 2px rgba(255,255,255,0.75);
     border-radius: 2em;
@@ -134,27 +142,31 @@
 	line-height: 2.5em;
 }
 
-.controls button svg{
+.controls button svg,
+.volume-group button svg{
 	height: 1.25em;
     color: #fff;
     margin-top: 0.75em;
 }
 
-.controls .volume-group{
+.volume-group{
 	float:right;
 	position: relative;
+	z-index: 10;
+	top: 6px;
+    right: 12px;
 }
 
-.controls .volume-group .volume-toggle{
+.volume-group .volume-toggle{
 	width: 3.5em;
 }
 
-.controls .volume-group.closed .volume-control,
-.controls .volume-group.closed .volume-shield {
+.volume-group.closed .volume-control,
+.volume-group.closed .volume-shield {
 	display:none;
 }
 
-.controls .volume-group .volume-shield {
+.volume-group .volume-shield {
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -164,10 +176,10 @@
 	z-index: 1000;
 }
 
-.controls .volume-control{
+.volume-control{
 	position: fixed;
     z-index: 10001;
-    bottom: -25px;
+    bottom: 0;
 	right: 0;
     background: rgba(0,0,0,0.95);
 	border: solid 1px rgba(255,255,255,0.5);
@@ -175,7 +187,7 @@
     transform: rotate(-90deg) translate(50%, 0);
 }
 
-.controls .volume-control .mute-toggle{
+.volume-control .mute-toggle{
 	transform: rotate(90deg);
 	width: 3.5em;
 }

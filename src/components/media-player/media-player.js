@@ -246,18 +246,6 @@ window.customElements.define('media-player', class extends HTMLElement {
 				<button class="btn next">
 					<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="fast-forward" class="svg-inline--fa fa-fast-forward fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M512 76v360c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12V284.1L276.5 440.6c-20.6 17.2-52.5 2.8-52.5-24.6V284.1L52.5 440.6C31.9 457.8 0 443.4 0 416V96c0-27.4 31.9-41.7 52.5-24.6L224 226.8V96c0-27.4 31.9-41.7 52.5-24.6L448 226.8V76c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12z"></path></svg>
 				</button>
-				<div class="volume-group closed">
-					<div class="volume-shield"></div>
-					<button class="btn volume-toggle">
-						<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="volume-up" class="svg-inline--fa fa-volume-up fa-w-18" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M215.03 71.05L126.06 160H24c-13.26 0-24 10.74-24 24v144c0 13.25 10.74 24 24 24h102.06l88.97 88.95c15.03 15.03 40.97 4.47 40.97-16.97V88.02c0-21.46-25.96-31.98-40.97-16.97zm233.32-51.08c-11.17-7.33-26.18-4.24-33.51 6.95-7.34 11.17-4.22 26.18 6.95 33.51 66.27 43.49 105.82 116.6 105.82 195.58 0 78.98-39.55 152.09-105.82 195.58-11.17 7.32-14.29 22.34-6.95 33.5 7.04 10.71 21.93 14.56 33.51 6.95C528.27 439.58 576 351.33 576 256S528.27 72.43 448.35 19.97zM480 256c0-63.53-32.06-121.94-85.77-156.24-11.19-7.14-26.03-3.82-33.12 7.46s-3.78 26.21 7.41 33.36C408.27 165.97 432 209.11 432 256s-23.73 90.03-63.48 115.42c-11.19 7.14-14.5 22.07-7.41 33.36 6.51 10.36 21.12 15.14 33.12 7.46C447.94 377.94 480 319.54 480 256zm-141.77-76.87c-11.58-6.33-26.19-2.16-32.61 9.45-6.39 11.61-2.16 26.2 9.45 32.61C327.98 228.28 336 241.63 336 256c0 14.38-8.02 27.72-20.92 34.81-11.61 6.41-15.84 21-9.45 32.61 6.43 11.66 21.05 15.8 32.61 9.45 28.23-15.55 45.77-45 45.77-76.88s-17.54-61.32-45.78-76.86z"></path></svg>
-					</button>
-					<div class="volume-control">
-						<button class="btn mute-toggle">
-							<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="volume-mute" class="svg-inline--fa fa-volume-mute fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M215.03 71.05L126.06 160H24c-13.26 0-24 10.74-24 24v144c0 13.25 10.74 24 24 24h102.06l88.97 88.95c15.03 15.03 40.97 4.47 40.97-16.97V88.02c0-21.46-25.96-31.98-40.97-16.97zM461.64 256l45.64-45.64c6.3-6.3 6.3-16.52 0-22.82l-22.82-22.82c-6.3-6.3-16.52-6.3-22.82 0L416 210.36l-45.64-45.64c-6.3-6.3-16.52-6.3-22.82 0l-22.82 22.82c-6.3 6.3-6.3 16.52 0 22.82L370.36 256l-45.63 45.63c-6.3 6.3-6.3 16.52 0 22.82l22.82 22.82c6.3 6.3 16.52 6.3 22.82 0L416 301.64l45.64 45.64c6.3 6.3 16.52 6.3 22.82 0l22.82-22.82c6.3-6.3 6.3-16.52 0-22.82L461.64 256z"></path></svg>
-						</button>
-						<input class="range volume" type="range" min="0" max="100" value="${startVol}">
-					</div>
-				</div>
 				<!-- Progress -->
 				<div class="display">
 					<div class="timer">0:00</div>
@@ -277,6 +265,18 @@ window.customElements.define('media-player', class extends HTMLElement {
 				<button class="minimize">
 					<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-up" class="svg-inline--fa fa-chevron-up fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M240.971 130.524l194.343 194.343c9.373 9.373 9.373 24.569 0 33.941l-22.667 22.667c-9.357 9.357-24.522 9.375-33.901.04L224 227.495 69.255 381.516c-9.379 9.335-24.544 9.317-33.901-.04l-22.667-22.667c-9.373-9.373-9.373-24.569 0-33.941L207.03 130.525c9.372-9.373 24.568-9.373 33.941-.001z"></path></svg>
 				</button>
+				<div class="volume-group closed">
+					<div class="volume-shield"></div>
+					<button class="btn volume-toggle">
+						<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="volume-up" class="svg-inline--fa fa-volume-up fa-w-18" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M215.03 71.05L126.06 160H24c-13.26 0-24 10.74-24 24v144c0 13.25 10.74 24 24 24h102.06l88.97 88.95c15.03 15.03 40.97 4.47 40.97-16.97V88.02c0-21.46-25.96-31.98-40.97-16.97zm233.32-51.08c-11.17-7.33-26.18-4.24-33.51 6.95-7.34 11.17-4.22 26.18 6.95 33.51 66.27 43.49 105.82 116.6 105.82 195.58 0 78.98-39.55 152.09-105.82 195.58-11.17 7.32-14.29 22.34-6.95 33.5 7.04 10.71 21.93 14.56 33.51 6.95C528.27 439.58 576 351.33 576 256S528.27 72.43 448.35 19.97zM480 256c0-63.53-32.06-121.94-85.77-156.24-11.19-7.14-26.03-3.82-33.12 7.46s-3.78 26.21 7.41 33.36C408.27 165.97 432 209.11 432 256s-23.73 90.03-63.48 115.42c-11.19 7.14-14.5 22.07-7.41 33.36 6.51 10.36 21.12 15.14 33.12 7.46C447.94 377.94 480 319.54 480 256zm-141.77-76.87c-11.58-6.33-26.19-2.16-32.61 9.45-6.39 11.61-2.16 26.2 9.45 32.61C327.98 228.28 336 241.63 336 256c0 14.38-8.02 27.72-20.92 34.81-11.61 6.41-15.84 21-9.45 32.61 6.43 11.66 21.05 15.8 32.61 9.45 28.23-15.55 45.77-45 45.77-76.88s-17.54-61.32-45.78-76.86z"></path></svg>
+					</button>
+					<div class="volume-control">
+						<button class="btn mute-toggle">
+							<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="volume-mute" class="svg-inline--fa fa-volume-mute fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M215.03 71.05L126.06 160H24c-13.26 0-24 10.74-24 24v144c0 13.25 10.74 24 24 24h102.06l88.97 88.95c15.03 15.03 40.97 4.47 40.97-16.97V88.02c0-21.46-25.96-31.98-40.97-16.97zM461.64 256l45.64-45.64c6.3-6.3 6.3-16.52 0-22.82l-22.82-22.82c-6.3-6.3-16.52-6.3-22.82 0L416 210.36l-45.64-45.64c-6.3-6.3-16.52-6.3-22.82 0l-22.82 22.82c-6.3 6.3-6.3 16.52 0 22.82L370.36 256l-45.63 45.63c-6.3 6.3-6.3 16.52 0 22.82l22.82 22.82c6.3 6.3 16.52 6.3 22.82 0L416 301.64l45.64 45.64c6.3 6.3 16.52 6.3 22.82 0l22.82-22.82c6.3-6.3 6.3-16.52 0-22.82L461.64 256z"></path></svg>
+						</button>
+						<input class="range volume" type="range" min="0" max="100" value="${startVol}">
+					</div>
+				</div>
 				<div class="display">
 					<div class="artwork"></div>
 					<div class="meta">
@@ -302,6 +302,7 @@ window.customElements.define('media-player', class extends HTMLElement {
 			volumeToggle: this.shadowRoot.querySelector('.btn.volume-toggle'),
 			volumeShield: this.shadowRoot.querySelector('.volume-shield'),
 			volume: this.shadowRoot.querySelector('.range.volume'),
+			mute: this.shadowRoot.querySelector('.btn.mute-toggle'),
 			minimize: this.shadowRoot.querySelector('.minimize')
 		};
 		this.display = {
@@ -347,6 +348,15 @@ window.customElements.define('media-player', class extends HTMLElement {
 			if( localStorage ) localStorage.setItem('mediaVolume', volVal.toString());
 		});
 
+		this.controls.mute.addEventListener('click', (evt)=>{
+			let volVal = this.controls.volume.value;
+			volVal = (parseInt(volVal) !== 0) ? 0 : 1;
+			console.log('setting volume to', volVal);
+			this.controls.volume.value = (volVal * 100);
+			if(this.howl) this.howl.volume( volVal );
+			if( localStorage ) localStorage.setItem('mediaVolume', volVal.toString());
+		});
+
 		this.controls.forward.addEventListener('click', () => { 
 			let seek = this.howl.seek() || 0;
 			if(this.howl) this.howl.seek( seek + 10 ); 
@@ -361,12 +371,13 @@ window.customElements.define('media-player', class extends HTMLElement {
 			let volGroup = this.shadowRoot.querySelector('.volume-group');
 			if(!volGroup) return;
 			volGroup.classList.toggle('closed');
-			//if(!volGroup.classList.contains('closed')){
-				//let volControl = this.shadowRoot.querySelector('.volume-control');
+			if(!volGroup.classList.contains('closed')){
+				let volControl = this.shadowRoot.querySelector('.volume-control');
+				let controlPos = volControl.getBoundingClientRect();
 				//let togglePos = this.controls.volumeToggle.getBoundingClientRect();
 				//volControl.style.bottom = (window.innerHeight - togglePos.bottom) + 'px';
-				//volControl.style.right = (window.innerWidth - togglePos.right) + 'px';
-			//}
+				volControl.style.right = (-controlPos.width) + 'px';
+			}
 		});
 
 		this.controls.volumeShield.addEventListener('click', () => { 

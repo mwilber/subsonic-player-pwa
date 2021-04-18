@@ -23,3 +23,10 @@ h1{
 	color: var(--app-text-color);
 	margin: 0.5em 0;
 }
+
+*:focus {
+	outline: none;
+	outline-style: none;
+	box-shadow: none;
+	border-color: transparent;
+}
