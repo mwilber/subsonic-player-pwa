@@ -49,12 +49,15 @@
 }
 
 .display{
+    position: absolute;
 	display: flex;
+    width: 100%;
 	height: calc( 100% - var(--player-min-height) );
+	margin: 0;
 }
 
 .meta{
-	flex: 0 0 calc(50% - 2%);
+	flex: 0 0 33%;
     padding: 3em 2% 0 0;
 	text-align: left;
 }
@@ -84,12 +87,18 @@
 }
 
 .artwork{
-	flex: 1 0 50%;
-	height: 100%;
+	flex: 1 0 62%;
+	height: 96%;
 	background: #3c3c3c top left no-repeat;
 	background-color: transparent;
-	background-size: contain;
-	margin: 0;
+	background-size: cover;
+	background-position: right;
+	margin: 2%;
+	/* clip-path: polygon(0 0, 30% 0, 50% 35%, 50% 70%, 30% 100%, 0 100%); */
+	/* clip-path: polygon(0 0, 50% 0, 70% 5%, 80% 15%, 90% 25%, 95% 50%, 90% 75%, 80% 85%, 70% 95%, 50% 100%, 0 100%); */
+	/* clip-path: url(#myClip); */
+	/* clip-path: padding-box circle(50% at 0 50%); */
+	clip-path: polygon(5% 3%, 95% 0%, 100% 90%, 60% 85%, 70% 100%, 30% 83%, 0% 80%);
 }
 
 .controls{
