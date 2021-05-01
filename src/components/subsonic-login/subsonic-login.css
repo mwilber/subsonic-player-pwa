@@ -1,0 +1,18 @@
+.login-form{
+	margin: 3em;
+	display: flex;
+	flex-direction: column;
+}
+
+input, button {
+    padding: 1em;
+    margin-top: 1em;
+    color: var(--app-text-color);
+    border: solid 1px var(--app-text-color);
+    border-radius: 5px;
+}
+
+button{
+	font-weight: bold;
+	text-transform: uppercase;
+}

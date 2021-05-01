@@ -16,10 +16,12 @@ window.customElements.define('subsonic-login', class extends HTMLElement {
 
 	render(){
 		if(localStorage['server'] && localStorage['user'] && localStorage['pass']){
-			//this.shadowRoot.innerHTML = `<slot></slot>`;
+			// Clear out the contents 
+			this.shadowRoot.innerHTML = ``;
+			// Grab the template
 			let templateContent = document.querySelector('template').content;
-			document.querySelector('.container').appendChild(
-				templateContent.cloneNode(true))
+			// Inject the template into the body
+			document.body.appendChild(templateContent.cloneNode(true))
 		}else{
 			this.shadowRoot.innerHTML = `
 				<style>
@@ -27,17 +29,21 @@ window.customElements.define('subsonic-login', class extends HTMLElement {
 				</style>
 	
 				<div class="login-form">
-					<input id="server" type="text" placeholder="server"/>
-					<input id="user" type="text" placeholder="user"/>
-					<input id="pass" type="text" placeholder="pass"/>
+					<h2>Subsonic Login</h2>
+					<input id="server" type="text" placeholder="Server Address"/>
+					<input id="user" type="text" placeholder="Username"/>
+					<input id="pass" type="text" placeholder="Password"/>
 					<button class="login">Login</button>
 				</div>
 			`;
 
 			this.shadowRoot.querySelector('button.login').addEventListener('click', ()=>{
-				localStorage['server'] = this.shadowRoot.getElementById('server').value;
-				localStorage['user'] = this.shadowRoot.getElementById('user').value;
-				localStorage['pass'] = this.shadowRoot.getElementById('pass').value;
+				let server = this.shadowRoot.getElementById('server');
+				let user = this.shadowRoot.getElementById('user');
+				let pass = this.shadowRoot.getElementById('pass');
+				if(server.value) localStorage['server'] = server.value;
+				if(user.value) localStorage['user'] = user.value;
+				if(pass.value) localStorage['pass'] = pass.value;
 				this.render();
 			});
 		} 
