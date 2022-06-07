@@ -12,6 +12,7 @@
  */ 
 import '../app-shell.css';
 import './serviceWorkerRegistration';
+import KeyManager from './keystrokeManager';
 
 // Load application styles
 import '../styles/main.scss';
@@ -93,3 +94,5 @@ if(localStorage['pass']) document.getElementById('pass').value = localStorage['p
 
 // 	document.querySelector('playlist-listing').LoadListing();
 // });
+
+const keyManager = new KeyManager();
